@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sandeep Kumar K</title>
+<meta name="description" content="Sandeep Kumar K, Embedded Engineer: firmware, BLE Audio, Auracast and hardware design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Palette: PCB solder mask, ENIG gold pads, silkscreen white */
+  :root {
+    color-scheme: dark;
+    --mask: #0b1f19;
+    --mask-2: #10291f;
+    --mask-3: #163628;
+    --trace: #24503f;
+    --silk: #e9eee8;
+    --silk-dim: #a3b8ad;
+    --silk-faint: #6f8a7d;
+    --gold: #d9a94f;
+    --gold-soft: #d9a94f22;
+    --copper: #c8794a;
+    --display: "Chakra Petch", "Rajdhani", "Segoe UI", system-ui, sans-serif;
+    --body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --wrap: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--mask);
+    background-image:
+      radial-gradient(circle at 1px 1px, #ffffff0a 1px, transparent 0);
+    background-size: 24px 24px;
+    color: var(--silk);
+    font: 16px/1.65 var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: 20px; }
+
+  /* Nav */
+  .nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: #0b1f19e6; backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--trace);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; }
+  .brand { font: 600 15px/1 var(--mono); color: var(--silk); letter-spacing: .04em; }
+  .brand span { color: var(--gold); }
+  .nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+  .nav ul a { color: var(--silk-dim); font: 500 13px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .nav ul a:hover { color: var(--gold); text-decoration: none; }
+  @media (max-width: 720px) { .nav ul { display: none; } }
+
+  /* Hero */
+  .hero { padding-block: 64px 32px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.25fr .75fr; gap: 56px; align-items: center; }
+  .ref { font: 500 12px/1 var(--mono); color: var(--silk-faint); letter-spacing: .12em; text-transform: uppercase; }
+  .hero h1 {
+    font: 700 clamp(44px, 7vw, 84px)/.95 var(--display);
+    letter-spacing: -.01em; margin: 14px 0 18px; text-wrap: balance;
+  }
+  .hero h1 .k { color: var(--gold); }
+  .role { font: 500 clamp(18px, 2.2vw, 22px)/1.4 var(--display); color: var(--silk); margin: 0 0 18px; letter-spacing: .02em; }
+  .role b { color: var(--gold); font-weight: 600; }
+  .lede { color: var(--silk-dim); max-width: 58ch; margin: 0 0 28px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 600 14px/1 var(--mono); letter-spacing: .04em;
+    padding: 14px 20px; border-radius: 3px; cursor: pointer;
+    border: 1px solid var(--gold); background: var(--gold); color: #1a1408;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-1px); background: #e6b960; }
+  .btn.ghost { background: transparent; color: var(--gold); }
+  .btn.ghost:hover { background: var(--gold-soft); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* Photo framed like a component footprint */
+  .footprint { position: relative; padding: 14px; max-width: 380px; justify-self: end; width: 100%; }
+  .footprint::before, .footprint::after {
+    content: ""; position: absolute; width: 26px; height: 26px; border: 2px solid var(--silk);
+  }
+  .footprint::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+  .footprint::after { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+  .footprint img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: 50% 15%; border-radius: 2px; filter: saturate(.92); }
+  .footprint .pin1 { position: absolute; top: 4px; left: 36px; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+  .footprint .des { position: absolute; bottom: -22px; left: 14px; font: 500 11px/1 var(--mono); color: var(--silk-faint); letter-spacing: .1em; }
+
+  /* I2S timing strip */
+  .scope { margin-top: 48px; border: 1px solid var(--trace); background: #07161199; border-radius: 4px; overflow: hidden; }
+  .scope-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 14px; border-bottom: 1px solid var(--trace); font: 500 11px/1.4 var(--mono); color: var(--silk-faint); letter-spacing: .08em; text-transform: uppercase; }
+  .scope-head b { color: var(--gold); font-weight: 500; }
+  .scope svg { display: block; width: 100%; height: 132px; }
+
+  /* Sections */
+  section.block { padding-block: 72px; border-top: 1px solid var(--trace); }
+  .sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px; flex-wrap: wrap; }
+  .sec-head h2 { font: 600 clamp(28px, 3.6vw, 38px)/1.1 var(--display); margin: 0; letter-spacing: .01em; text-wrap: balance; }
+  .sec-head .ref { color: var(--gold); }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; }
+  .about p { color: var(--silk-dim); margin: 0 0 16px; max-width: 62ch; }
+  .about p strong { color: var(--silk); font-weight: 500; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--trace); border: 1px solid var(--trace); align-self: start; }
+  .fact { background: var(--mask-2); padding: 18px; }
+  .fact .v { font: 700 30px/1 var(--display); color: var(--gold); font-variant-numeric: tabular-nums; }
+  .fact .l { font: 500 12px/1.4 var(--mono); color: var(--silk-dim); margin-top: 8px; letter-spacing: .04em; }
+
+  /* Experience */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .job { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding-block: 28px; border-bottom: 1px dashed var(--trace); position: relative; }
+  .job:last-child { border-bottom: 0; }
+  .when { font: 500 13px/1.5 var(--mono); color: var(--silk-faint); font-variant-numeric: tabular-nums; }
+  .when .now { display: inline-block; margin-top: 8px; padding: 3px 8px; border: 1px solid var(--gold); color: var(--gold); border-radius: 2px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .job h3 { font: 600 22px/1.25 var(--display); margin: 0 0 4px; }
+  .job .co { color: var(--gold); font: 500 14px/1.4 var(--mono); margin: 0 0 14px; }
+  .job .co small { color: var(--silk-faint); font-size: 12px; }
+  .job ul { margin: 0; padding-left: 18px; color: var(--silk-dim); display: grid; gap: 6px; }
+  .job li::marker { color: var(--gold); }
+  .sub-role { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--mask-3); }
+  .sub-role h4 { font: 600 16px/1.3 var(--display); margin: 0 0 8px; color: var(--silk); }
+  .sub-role h4 span { font: 400 12px/1 var(--mono); color: var(--silk-faint); margin-left: 8px; }
+
+  /* Projects */
+  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .proj { background: var(--mask-2); border: 1px solid var(--trace); border-radius: 4px; padding: 22px; display: flex; flex-direction: column; gap: 12px; transition: border-color .2s ease, transform .2s ease; }
+  .proj:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .proj .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .proj .des { font: 500 11px/1 var(--mono); color: var(--silk-faint); letter-spacing: .1em; }
+  .proj .org { font: 500 11px/1.2 var(--mono); color: var(--copper); text-align: right; }
+  .proj h3 { font: 600 21px/1.2 var(--display); margin: 0; }
+  .proj p { margin: 0; color: var(--silk-dim); font-size: 15px; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .tags li { font: 500 11px/1 var(--mono); padding: 5px 8px; border-radius: 2px; background: var(--mask-3); color: var(--silk); letter-spacing: .02em; }
+
+  /* Skills as pin headers */
+  .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .header-blk { border: 1px solid var(--trace); border-radius: 4px; overflow: hidden; }
+  .header-blk h3 { margin: 0; padding: 12px 16px; background: var(--mask-3); font: 600 15px/1.2 var(--display); letter-spacing: .03em; display: flex; justify-content: space-between; gap: 8px; }
+  .header-blk h3 span { font: 400 11px/1.4 var(--mono); color: var(--silk-faint); }
+  .pins { list-style: none; margin: 0; padding: 10px 16px 14px; display: grid; gap: 2px; }
+  .pins li { display: grid; grid-template-columns: 22px 12px 1fr; align-items: center; gap: 8px; font: 400 14px/1.9 var(--body); color: var(--silk-dim); }
+  .pins li::before { content: attr(data-n); font: 400 11px/1 var(--mono); color: var(--silk-faint); text-align: right; font-variant-numeric: tabular-nums; }
+  .pins li i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--gold); display: block; }
+  .pins li:first-child i { border-radius: 1px; }
+
+  /* Education */
+  .edu { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .edu article { border-left: 2px solid var(--gold); padding: 4px 0 4px 20px; }
+  .edu h3 { font: 600 20px/1.3 var(--display); margin: 0 0 6px; }
+  .edu p { margin: 0; color: var(--silk-dim); }
+  .edu .when { margin-top: 8px; }
+
+  /* Contact */
+  .contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; }
+  .direct { display: grid; gap: 14px; align-content: start; }
+  .direct p { color: var(--silk-dim); margin: 0 0 8px; max-width: 46ch; }
+  .line { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--trace); border-radius: 3px; background: var(--mask-2); }
+  .line .k { font: 500 11px/1 var(--mono); color: var(--silk-faint); letter-spacing: .1em; text-transform: uppercase; }
+  .line .v { font: 400 14px/1.4 var(--mono); color: var(--silk); overflow-wrap: anywhere; user-select: all; }
+  .line .v a { color: var(--silk); }
+  .copy { font: 500 11px/1 var(--mono); padding: 7px 10px; border-radius: 2px; border: 1px solid var(--trace); background: transparent; color: var(--gold); cursor: pointer; letter-spacing: .06em; }
+  .copy:hover { border-color: var(--gold); }
+  form { display: grid; gap: 16px; background: var(--mask-2); border: 1px solid var(--trace); border-radius: 4px; padding: 24px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label { display: grid; gap: 6px; font: 500 12px/1 var(--mono); color: var(--silk-dim); letter-spacing: .06em; text-transform: uppercase; }
+  input, textarea {
+    font: 400 15px/1.5 var(--body); color: var(--silk); background: var(--mask);
+    border: 1px solid var(--trace); border-radius: 3px; padding: 11px 12px; width: 100%;
+    text-transform: none; letter-spacing: 0;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+  textarea { min-height: 140px; resize: vertical; }
+  .form-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .status { font: 400 13px/1.5 var(--mono); color: var(--silk-dim); min-height: 1.5em; margin: 0; }
+  .status.err { color: #f08c74; }
+
+  footer { border-top: 1px solid var(--trace); padding-block: 28px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font: 400 12px/1.5 var(--mono); color: var(--silk-faint); letter-spacing: .04em; }
+
+  @media (max-width: 900px) {
+    .hero .wrap, .about, .contact { grid-template-columns: 1fr; gap: 40px; }
+    .footprint { justify-self: start; max-width: 320px; }
+    .projects, .skills { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .projects, .skills, .edu, .row { grid-template-columns: 1fr; }
+    .job { grid-template-columns: 1fr; gap: 10px; }
+    .hero { padding-block: 40px 24px; }
+    section.block { padding-block: 56px; }
+    .line { grid-template-columns: 1fr auto; }
+    .line .k { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn, .proj { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">SKK<span>_</span>FW</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="ref">Embedded Engineer · Firmware &amp; Hardware</div>
+      <h1>Sandeep<br>Kumar <span class="k">K</span></h1>
+      <p class="role">Firmware for <b>BLE Audio</b>, <b>Auracast</b> and multi-channel <b>I2S / TDM</b> audio</p>
+      <p class="lede">I build embedded hardware and firmware from board bring-up to validation. My current work is Auracast transmitters, receivers and assistants on STM32WBA55G and NXH3675 at OpenEcore.</p>
+      <div class="cta">
+        <button class="btn" type="button" id="dl-resume">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11"/></svg>
+          Download resume
+        </button>
+        <a class="btn ghost" href="#contact">Get in touch</a>
+      </div>
+      <p class="status" id="dl-status" role="status"></p>
+    </div>
+    <figure class="footprint" style="margin:0">
+      <span class="pin1" aria-hidden="true"></span>
+      <img src="photo.jpg" alt="Sandeep Kumar K in a navy suit outside an office building" width="900" height="1200">
+      <span class="des" aria-hidden="true">U1 · SKK-2026</span>
+    </figure>
+  </div>
+  <div class="wrap">
+    <div class="scope" aria-hidden="true">
+      <div class="scope-head"><span>CH1 BCLK · CH2 WS · CH3 SD — <b>TDM4</b>, 48 kHz</span><span>Slot 0 → Slot 3</span></div>
+      <svg id="scope" viewBox="0 0 1080 132" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="sec-head"><span class="ref">U2</span><h2>About</h2></div>
+      <div class="about">
+        <div>
+          <p>I'm an embedded engineer with <strong>2+ years of experience</strong> in firmware development, board bring-up and system validation. I work mostly in <strong>Embedded C and Python</strong>, close to the hardware.</p>
+          <p>My core area is wireless audio. I build Bluetooth Classic, <strong>BLE Audio and Auracast</strong> devices, and I've scaled I2S/TDM audio paths from mono to four channels. I also built SkyAmour, an Android app that brings Auracast to phones without native support.</p>
+          <p>Before audio, I worked on robotics and commercial devices. That included a semi-automated coffee bean plucking machine and three product lines at Factana. I design schematics and PCBs, prepare BOMs, follow ASPICE-aligned processes, and debug at the bench with an oscilloscope and logic analyzer.</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><div class="v">2+</div><div class="l">Years in embedded</div></div>
+          <div class="fact"><div class="v">4 ch</div><div class="l">TDM audio, scaled from mono</div></div>
+          <div class="fact"><div class="v">3</div><div class="l">Commercial device lines</div></div>
+          <div class="fact"><div class="v">6</div><div class="l">Shipped and prototype projects</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="experience">
+    <div class="wrap">
+      <div class="sec-head"><span class="ref">U3</span><h2>Experience</h2></div>
+      <ol class="timeline">
+        <li class="job">
+          <div class="when">Apr 2025 – Present<br><span class="now">Current</span></div>
+          <div>
+            <h3>Embedded Engineer</h3>
+            <p class="co">OpenEcore Private Limited <small>(formerly Kruthak Technology)</small></p>
+            <ul>
+              <li>Built Auracast transmitter, receiver and assistant devices.</li>
+              <li>Scaled I2S/TDM audio from mono to 4-channel on STM32WBA55G and NXH3675.</li>
+              <li>Developed SkyAmour, an Android app that enables Auracast on devices without native Auracast support.</li>
+            </ul>
+            <div class="sub-role">
+              <h4>Associate Embedded Engineer <span>Apr 2025 – Oct 2026</span></h4>
+              <ul>
+                <li>Developed embedded hardware and firmware for COFRO, a coffee bean plucking machine that moved the process from manual work to a semi-automated system.</li>
+                <li>Integrated AI camera models with microcontrollers for real-time bean detection.</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="job">
+          <div class="when">Nov 2023 – Jul 2024</div>
+          <div>
+            <h3>Junior Embedded Engineer</h3>
+            <p class="co">Factana Computing Private Limited</p>
+            <ul>
+              <li>Hardware, firmware and validation for three commercial device lines: APM, DWK and OCR.</li>
+              <li>Built a custom RS232 test kit that shortened device connectivity validation.</li>
+              <li>Designed schematics and PCB layouts in EasyEDA and maintained BOMs across projects.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="job">
+          <div class="when">Feb 2023 – Jun 2023</div>
+          <div>
+            <h3>Embedded Engineer Intern</h3>
+            <p class="co">Pi Square Technologies</p>
+            <ul>
+              <li>Developed a sensor-based alcohol and drowsiness detection system with automatic safety actions.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="sec-head"><span class="ref">U4</span><h2>Projects</h2></div>
+      <div class="projects">
+        <article class="proj">
+          <div class="top"><span class="des">P1</span><span class="org">OpenEcore</span></div>
+          <h3>Auracast Devices</h3>
+          <p>Transmitter, receiver and assistant devices for BLE Audio broadcast. Includes the multi-channel I2S/TDM audio path with the LC3 codec.</p>
+          <ul class="tags"><li>STM32WBA55G</li><li>NXH3675</li><li>LC3</li><li>TDM</li></ul>
+        </article>
+        <article class="proj">
+          <div class="top"><span class="des">P2</span><span class="org">OpenEcore</span></div>
+          <h3>SkyAmour</h3>
+          <p>An Android app that enables Auracast listening on phones that don't support it natively.</p>
+          <ul class="tags"><li>Android</li><li>Auracast</li><li>BLE Audio</li></ul>
+        </article>
+        <article class="proj">
+          <div class="top"><span class="des">P3</span><span class="org">Kruthak Technology</span></div>
+          <h3>COFRO</h3>
+          <p>A semi-automated robotic coffee bean plucking machine. It uses camera-based AI vision and embedded control to detect and pick beans.</p>
+          <ul class="tags"><li>Robotics</li><li>Computer vision</li><li>Firmware</li></ul>
+        </article>
+        <article class="proj">
+          <div class="top"><span class="des">P4</span><span class="org">Factana Computing</span></div>
+          <h3>APM, OCR &amp; DWK Devices</h3>
+          <p>Firmware, hardware design and validation testing for three commercial embedded device lines, plus an RS232 test kit.</p>
+          <ul class="tags"><li>RS232</li><li>PCB</li><li>BOM</li><li>Validation</li></ul>
+        </article>
+        <article class="proj">
+          <div class="top"><span class="des">P5</span><span class="org">Pi Square</span></div>
+          <h3>Alcohol &amp; Drowsiness Detection</h3>
+          <p>A driver safety system that monitors alcohol level and alertness in real time and triggers safety actions when limits are crossed.</p>
+          <ul class="tags"><li>Sensors</li><li>Microcontroller</li><li>Safety</li></ul>
+        </article>
+        <article class="proj">
+          <div class="top"><span class="des">P6</span><span class="org">Final-year project</span></div>
+          <h3>Smart Gardener</h3>
+          <p>An autonomous lawn-cutting robot that navigates terrain with sensors. An eco-friendly alternative to manual mowing.</p>
+          <ul class="tags"><li>Robotics</li><li>Navigation</li><li>Sensors</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <div class="wrap">
+      <div class="sec-head"><span class="ref">J1</span><h2>Skills</h2></div>
+      <div class="skills" id="skills-grid"></div>
+    </div>
+  </section>
+
+  <section class="block" id="education">
+    <div class="wrap">
+      <div class="sec-head"><span class="ref">U5</span><h2>Education</h2></div>
+      <div class="edu">
+        <article>
+          <h3>B.E., Electronics &amp; Communication</h3>
+          <p>MVJ College of Engineering, Bengaluru (Autonomous, VTU)</p>
+          <div class="when">2020 – 2023</div>
+        </article>
+        <article>
+          <h3>Diploma, Electronics &amp; Communication</h3>
+          <p>Government Polytechnic, Chintamani (DTE)</p>
+          <div class="when">2017 – 2020</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="sec-head"><span class="ref">J2</span><h2>Contact</h2></div>
+      <div class="contact">
+        <div class="direct">
+          <p>I'm open to embedded firmware and wireless audio roles. Write to me directly or use the form.</p>
+          <div class="line"><span class="k">Email</span><span class="v" id="v-email">kumarsandeep.k7259@gmail.com</span><button class="copy" type="button" data-copy="v-email">Copy</button></div>
+          <div class="line"><span class="k">Phone</span><span class="v" id="v-phone"></span><button class="copy" type="button" data-copy="v-phone">Copy</button></div>
+          <div class="line"><span class="k">LinkedIn</span><span class="v"><a href="https://www.linkedin.com/in/sandeep-kumar-k" target="_blank" rel="noopener">linkedin.com/in/sandeep-kumar-k</a></span><span></span></div>
+          <div class="line" id="gh-line" hidden><span class="k">GitHub</span><span class="v"><a id="gh-link" href="#" target="_blank" rel="noopener"></a></span><span></span></div>
+        </div>
+        <form id="contact-form" novalidate>
+          <div class="row">
+            <label for="f-name">Your name<input id="f-name" name="name" autocomplete="name" required></label>
+            <label for="f-email">Your email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+          </div>
+          <label for="f-subject">Subject<input id="f-subject" name="subject" placeholder="Firmware role at …"></label>
+          <label for="f-msg">Message<textarea id="f-msg" name="message" required></textarea></label>
+          <div class="form-actions">
+            <button class="btn" type="submit">Open in email app</button>
+            <button class="btn ghost" type="button" id="copy-msg">Copy message</button>
+          </div>
+          <p class="status" id="form-status" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Sandeep Kumar K</span>
+    <span>Designed like a board: U = sections, J = connectors</span>
+  </div>
+</footer>
+
+<script>
+  // Set your GitHub profile URL here to show it in the Contact section.
+  const GITHUB_URL = "https://github.com/sandeepk1028";
+  const EMAIL = "kumarsandeep.k7259@gmail.com";
+  const RESUME = "Sandeep_Kumar_K_Resume.pdf";
+
+  if (GITHUB_URL) {
+    const a = document.getElementById("gh-link");
+    a.href = GITHUB_URL;
+    a.textContent = GITHUB_URL.replace(/^https?:\/\/(www\.)?/, "");
+    document.getElementById("gh-line").hidden = false;
+  }
+
+  // Skills rendered as pin headers
+  const SKILLS = [
+    ["Languages", ["C", "Embedded C", "Python"]],
+    ["MCUs & MPUs", ["STM32 (STM32WBA55G)", "NXP (NXH3675)", "ESP32", "Raspberry Pi", "Arduino"]],
+    ["RTOS, IDEs & SDKs", ["FreeRTOS", "STM32CubeIDE", "MCUXpresso", "ESP-IDF", "Embedded Linux"]],
+    ["Wireless & Audio", ["Bluetooth Classic", "BLE Audio", "Auracast", "LC3 Codec", "I2S / TDM"]],
+    ["Wired Protocols", ["UART", "I2C", "SPI", "RS232", "IoT data transfer"]],
+    ["Hardware & Lab", ["Schematic & PCB layout", "BOM preparation", "Oscilloscope & logic analyzer", "JTAG / SWD debugging", "ASPICE, system validation"]],
+  ];
+  const grid = document.getElementById("skills-grid");
+  SKILLS.forEach(([name, items]) => {
+    const blk = document.createElement("div");
+    blk.className = "header-blk";
+    const h = document.createElement("h3");
+    h.textContent = name;
+    const s = document.createElement("span");
+    s.textContent = items.length + "-pin";
+    h.appendChild(s);
+    const ul = document.createElement("ul");
+    ul.className = "pins";
+    items.forEach((t, i) => {
+      const li = document.createElement("li");
+      li.dataset.n = i + 1;
+      li.appendChild(document.createElement("i"));
+      li.appendChild(document.createTextNode(t));
+      ul.appendChild(li);
+    });
+    blk.append(h, ul);
+    grid.appendChild(blk);
+  });
+
+  // I2S / TDM timing diagram
+  (function drawScope() {
+    const svg = document.getElementById("scope");
+    const NS = "http://www.w3.org/2000/svg";
+    const W = 1080, L = 64;
+    const mk = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+    const label = (y, t) => svg.appendChild(Object.assign(mk("text", { x: 14, y: y + 4, fill: "#6f8a7d", "font-family": "IBM Plex Mono, monospace", "font-size": 11 }), { textContent: t }));
+    // grid
+    for (let x = L; x <= W; x += 63.5) svg.appendChild(mk("line", { x1: x, y1: 8, x2: x, y2: 124, stroke: "#24503f", "stroke-width": 1, "stroke-dasharray": "2 4" }));
+    const hi = (y) => y - 10, lo = (y) => y + 10;
+    // BCLK
+    let y = 30, d = `M${L} ${lo(y)}`, half = 6.35;
+    for (let x = L, s = 0; x < W; x += half, s ^= 1) d += ` L${x} ${s ? hi(y) : lo(y)} L${Math.min(x + half, W)} ${s ? hi(y) : lo(y)}`;
+    svg.appendChild(mk("path", { d, fill: "none", stroke: "#a3b8ad", "stroke-width": 1.2 }));
+    label(y, "BCLK");
+    // WS / frame sync: one pulse per TDM frame
+    y = 66; const frame = 254;
+    d = `M${L} ${lo(y)}`;
+    for (let x = L; x < W; x += frame) d += ` L${x} ${lo(y)} L${x} ${hi(y)} L${x + 12.7} ${hi(y)} L${x + 12.7} ${lo(y)} L${Math.min(x + frame, W)} ${lo(y)}`;
+    svg.appendChild(mk("path", { d, fill: "none", stroke: "#d9a94f", "stroke-width": 1.6 }));
+    label(y, "WS");
+    // SD: 4 slots per frame
+    y = 104; const slot = frame / 4;
+    for (let x = L, i = 0; x < W - 1; x += slot, i++) {
+      const x2 = Math.min(x + slot, W) - 3;
+      svg.appendChild(mk("path", { d: `M${x} ${y} L${x + 4} ${hi(y)} L${x2 - 4} ${hi(y)} L${x2} ${y} L${x2 - 4} ${lo(y)} L${x + 4} ${lo(y)} Z`, fill: i % 4 === 0 ? "#d9a94f22" : "#16362899", stroke: "#c8794a", "stroke-width": 1.2 }));
+      if (x2 - x > 30) svg.appendChild(Object.assign(mk("text", { x: (x + x2) / 2, y: y + 4, "text-anchor": "middle", fill: "#e9eee8", "font-family": "IBM Plex Mono, monospace", "font-size": 10 }), { textContent: "CH" + (i % 4 + 1) }));
+    }
+    label(y, "SD");
+  })();
+
+  // Clipboard helper with selection fallback
+  async function copyText(text, el) {
+    try { await navigator.clipboard.writeText(text); return true; }
+    catch (e) {
+      if (el) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+      return false;
+    }
+  }
+  document.querySelectorAll("[data-copy]").forEach((b) => {
+    b.addEventListener("click", async () => {
+      const el = document.getElementById(b.dataset.copy);
+      const ok = await copyText(el.textContent.trim(), el);
+      b.textContent = ok ? "Copied" : "Selected";
+      setTimeout(() => (b.textContent = "Copy"), 1600);
+    });
+  });
+
+  // Resume download: platform download when available, plain link otherwise
+  let downloads = null;
+  if (window.claude && window.claude.use) {
+    window.claude.use("downloads").then((d) => { downloads = d; }).catch(() => {});
+  }
+  const dlStatus = document.getElementById("dl-status");
+  document.getElementById("dl-resume").addEventListener("click", async () => {
+    dlStatus.className = "status";
+    dlStatus.textContent = "";
+    if (!downloads) {
+      const a = document.createElement("a");
+      a.href = RESUME; a.download = RESUME;
+      document.body.appendChild(a); a.click(); a.remove();
+      return;
+    }
+    try {
+      const res = await fetch(RESUME);
+      if (!res.ok) throw new Error("fetch");
+      await downloads.save({ filename: RESUME, data: await res.blob() });
+      dlStatus.textContent = "Resume saved.";
+    } catch (e) {
+      if (e && e.code === "declined") return;
+      dlStatus.className = "status err";
+      dlStatus.textContent = "The download didn't start here. Email me and I'll send the resume.";
+    }
+  });
+
+  // Contact form: compose an email, or copy the message
+  const form = document.getElementById("contact-form");
+  const st = document.getElementById("form-status");
+  function compose() {
+    const name = form.name.value.trim(), email = form.email.value.trim(), msg = form.message.value.trim();
+    if (!name || !msg || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      st.className = "status err";
+      st.textContent = "Add your name, a valid email and a message.";
+      return null;
+    }
+    const subject = form.subject.value.trim() || "Hello from your portfolio";
+    return { subject, body: `${msg}\n\n— ${name}\n${email}` };
+  }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const m = compose(); if (!m) return;
+    st.className = "status";
+    st.textContent = "If your email app didn't open, use Copy message and send it to " + EMAIL + ".";
+    location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`;
+  });
+  document.getElementById("copy-msg").addEventListener("click", async () => {
+    const m = compose(); if (!m) return;
+    const ok = await copyText(`To: ${EMAIL}\nSubject: ${m.subject}\n\n${m.body}`);
+    st.className = ok ? "status" : "status err";
+    st.textContent = ok ? "Message copied. Paste it into an email to " + EMAIL + "." : "Couldn't copy. Please email " + EMAIL + " directly.";
+  });
+</script>
+</body>
+</html>

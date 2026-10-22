@@ -145,7 +145,6 @@
   .photo .badge b { display: block; font: 800 22px/1 var(--display); }
   .photo .badge small { color: var(--text-2); font-size: 13px; }
   .photo .badge .ic { width: 42px; height: 42px; border-radius: 12px; background: var(--grad); display: grid; place-items: center; color: var(--on-accent); }
-  .photo .chip2 { position: absolute; right: -18px; top: 40px; padding: 10px 14px; border-radius: 14px; font: 500 13px/1 var(--mono); background: var(--text); color: var(--bg); box-shadow: var(--shadow); animation: float 6s ease-in-out -2s infinite; }
   @keyframes float { 50% { transform: translateY(-10px); } }
   .scroll-cue { position: relative; margin-top: 70px; display: flex; align-items: center; gap: 12px; font: 500 12px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
   .scroll-cue i { width: 22px; height: 36px; border-radius: 12px; border: 1.5px solid var(--text-3); position: relative; }
@@ -305,8 +304,7 @@
     .hero { padding-block: 120px 60px; }
     .photo { max-width: 100%; }
     .photo .badge { left: 12px; }
-    .photo .chip2 { right: 12px; }
-    section.sec { padding-block: 90px; }
+      section.sec { padding-block: 90px; }
     .pc, .pc.wide { grid-column: span 6; min-height: 0; }
     .sk, .edu, .row { grid-template-columns: 1fr; }
     .tl { padding-left: 34px; }
@@ -365,7 +363,6 @@
       <div class="photo" id="photo">
         <div class="frame"><img src="photo.jpg" alt="Sandeep Kumar K in a navy suit outside an office building"></div>
         <div class="badge fade" style="--d:1.3s"><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 12h.01M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg></span><span><b>2+ years</b><small>Embedded &amp; wireless audio</small></span></div>
-        <div class="chip2 fade" style="--d:1.45s">LC3 · 48 kHz · 4 ch</div>
       </div>
     </div>
     <div class="scroll-cue fade" style="--d:1.6s"><i aria-hidden="true"></i>Scroll to explore</div>

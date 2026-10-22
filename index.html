@@ -88,8 +88,11 @@
   .nav.hide { transform: translateY(-110%); }
   .nav .bar { margin: 14px auto 0; max-width: 1132px; width: calc(100% - 32px); display: flex; align-items: center; gap: 18px; padding: 10px 10px 10px 22px; border-radius: 999px; border: 1px solid transparent; transition: background-color .3s, border-color .3s, box-shadow .3s; }
   .nav.solid .bar { background: color-mix(in srgb, var(--surface) 78%, transparent); border-color: var(--line); backdrop-filter: blur(14px) saturate(1.4); box-shadow: var(--shadow); }
-  .brand { font: 800 20px/1 var(--display); letter-spacing: -.03em; display: flex; align-items: center; gap: 10px; }
-  .brand i { width: 10px; height: 10px; border-radius: 50%; background: var(--grad); display: block; box-shadow: 0 0 0 4px var(--accent-soft); }
+  .brand { font: 800 18px/1 var(--display); letter-spacing: -.02em; display: flex; align-items: center; gap: 12px; }
+  .brand .bt { display: grid; gap: 4px; }
+  .brand i::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--a1); animation: ping 1.8s var(--ease) infinite; }
+  .brand small { font: 500 12px/1 var(--body); letter-spacing: 0; color: var(--text-2); }
+  .brand i { position: relative; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--grad); display: block; }
   .links { display: flex; gap: 4px; list-style: none; margin: 0 0 0 auto; padding: 0; }
   .links a { display: block; padding: 9px 14px; border-radius: 999px; font: 600 14px/1 var(--body); color: var(--text-2); transition: color .2s, background-color .2s; }
   .links a:hover, .links a.active { color: var(--text); background: var(--accent-soft); }
@@ -111,7 +114,7 @@
   .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; position: relative; }
   .eyebrow .dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #22c55e; animation: ping 1.8s var(--ease) infinite; }
   @keyframes ping { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
-  .name { font-weight: 800; font-size: clamp(54px, 9.4vw, 132px); line-height: .9; letter-spacing: -.045em; margin: 26px 0 26px; }
+  .name { font-weight: 800; font-size: clamp(30px, 6vw, 84px); line-height: 1; letter-spacing: -.04em; margin: 24px 0 24px; white-space: nowrap; }
   .name .ln { display: block; overflow: hidden; padding-bottom: .06em; }
   .name .ch { display: inline-block; }
   .name .k { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -292,6 +295,7 @@
   @media (max-width: 960px) {
     .hg, .about-g, .cg { grid-template-columns: 1fr; }
     .photo { justify-self: start; max-width: 380px; }
+    .name { font-size: min(9vw, 84px); }
     .pc, .pc.wide { grid-column: span 3; }
     .sk { grid-template-columns: 1fr 1fr; }
   }
@@ -325,7 +329,7 @@
 
 <nav class="nav" id="nav" aria-label="Main">
   <div class="bar">
-    <a class="brand" href="#top"><i aria-hidden="true"></i>Sandeep</a>
+    <a class="brand" href="#top"><i aria-hidden="true"></i><span class="bt">Sandeep Kumar K<small>Embedded Engineer</small></span></a>
     <ul class="links">
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
@@ -346,8 +350,8 @@
   <div class="wrap">
     <div class="hg">
       <div>
-        <span class="eyebrow fade" style="--d:.2s"><span class="dot" aria-hidden="true"></span>Embedded Engineer · Open to new roles</span>
-        <h1 class="name" aria-label="Sandeep Kumar K"><span class="ln" data-split>Sandeep</span><span class="ln" data-split>Kumar <span class="k">K</span></span></h1>
+        <span class="eyebrow fade" style="--d:.2s"><span class="dot" aria-hidden="true"></span>Embedded Engineer at OpenEcore</span>
+        <h1 class="name" aria-label="Sandeep Kumar K"><span class="ln" data-split>Sandeep Kumar <span class="k">K</span></span></h1>
         <p class="rot fade" style="--d:.7s">I build firmware for
           <span class="slot" id="rot"><span class="cur">BLE Audio</span><span>Auracast broadcast</span><span>multi-channel TDM</span><span>robotics</span><span>PCB bring-up</span></span>
         </p>
@@ -584,7 +588,7 @@
   if (animate && !seen) {
     const l = document.createElement("div");
     l.className = "loader";
-    l.innerHTML = '<div class="lw"><div class="lt"><span>Sandeep.</span></div><div class="lbar"><i></i></div><div class="ln" id="lnum">000</div></div>';
+    l.innerHTML = '<div class="lw"><div class="lt"><span>Sandeep Kumar K</span></div><div class="lbar"><i></i></div><div class="ln" id="lnum">000</div></div>';
     document.body.appendChild(l);
     const n = l.querySelector("#lnum"); const t0 = performance.now();
     const tick = (t) => { const p = Math.min(1, (t - t0) / 900); n.textContent = String(Math.round(p * 100)).padStart(3, "0"); if (p < 1) requestAnimationFrame(tick); };

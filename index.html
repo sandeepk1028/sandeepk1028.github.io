@@ -151,15 +151,6 @@
   .anim .photo:not(.in) img { transform: scale(1.3); }
   .anim .photo img { transition: transform 1.6s var(--ease) .25s; }
 
-  /* Marquee */
-  .marquee { border-block: 1px solid var(--line); background: var(--surface); padding-block: 22px; overflow: hidden; display: grid; gap: 12px; }
-  .mq { display: flex; width: max-content; gap: 0; animation: mq 38s linear infinite; }
-  .mq.rev { animation-direction: reverse; animation-duration: 46s; }
-  .marquee:hover .mq { animation-play-state: paused; }
-  .mq span { display: inline-flex; align-items: center; gap: 22px; padding-right: 22px; font: 700 clamp(22px, 3vw, 34px)/1.1 var(--display); letter-spacing: -.02em; white-space: nowrap; }
-  .mq.rev span { color: transparent; -webkit-text-stroke: 1px var(--text-3); }
-  .mq span::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--grad); }
-  @keyframes mq { to { transform: translateX(-50%); } }
 
   /* Sections */
   section.sec { padding-block: 130px; position: relative; }
@@ -308,7 +299,6 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
-    .mq { animation: none; }
   }
 </style>
 </head>
@@ -360,11 +350,6 @@
     </div>
   </div>
 </header>
-
-<div class="marquee" aria-label="Technologies">
-  <div class="mq"><span>BLE Audio</span><span>Auracast</span><span>STM32WBA55G</span><span>NXH3675</span><span>I2S / TDM</span><span>LC3 Codec</span><span>FreeRTOS</span><span>Embedded C</span><span>BLE Audio</span><span>Auracast</span><span>STM32WBA55G</span><span>NXH3675</span><span>I2S / TDM</span><span>LC3 Codec</span><span>FreeRTOS</span><span>Embedded C</span></div>
-  <div class="mq rev" aria-hidden="true"><span>PCB Design</span><span>Board Bring-up</span><span>ESP32</span><span>Python</span><span>UART · SPI · I2C</span><span>ASPICE</span><span>Logic Analyzer</span><span>JTAG / SWD</span><span>PCB Design</span><span>Board Bring-up</span><span>ESP32</span><span>Python</span><span>UART · SPI · I2C</span><span>ASPICE</span><span>Logic Analyzer</span><span>JTAG / SWD</span></div>
-</div>
 
 <main>
   <section class="sec" id="about">

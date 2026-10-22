@@ -82,10 +82,6 @@
   @keyframes lrise { from { transform: translateY(110%); } }
   @keyframes lbar { from { transform: scaleX(0); } }
 
-  /* Cursor ring (fine pointers only) */
-  .cursor { position: fixed; top: 0; left: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1.5px solid var(--a1); border-radius: 50%; pointer-events: none; z-index: 70; opacity: 0; transition: width .25s var(--ease), height .25s var(--ease), margin .25s var(--ease), opacity .3s, background-color .25s; }
-  .cursor.on { opacity: .7; }
-  .cursor.big { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: var(--accent-soft); }
 
   /* Nav */
   .nav { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 50; transition: transform .45s var(--ease); }
@@ -326,7 +322,6 @@
 <body>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
-<div class="cursor" id="cursor" aria-hidden="true"></div>
 
 <nav class="nav" id="nav" aria-label="Main">
   <div class="bar">
@@ -670,17 +665,8 @@
   addEventListener("resize", onScroll);
   onScroll();
 
-  // Pointer effects: cursor ring, magnetic buttons, card tilt and spotlight, photo tilt
+  // Pointer effects: magnetic buttons, card tilt and spotlight, photo tilt
   if (fine && animate) {
-    const cur = document.getElementById("cursor");
-    let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my;
-    addEventListener("pointermove", (e) => { mx = e.clientX; my = e.clientY; cur.classList.add("on"); });
-    document.addEventListener("pointerleave", () => cur.classList.remove("on"));
-    (function loop() { cx += (mx - cx) * .2; cy += (my - cy) * .2; cur.style.transform = `translate(${cx}px, ${cy}px)`; requestAnimationFrame(loop); })();
-    document.querySelectorAll("a, button, .pc").forEach((el) => {
-      el.addEventListener("pointerenter", () => cur.classList.add("big"));
-      el.addEventListener("pointerleave", () => cur.classList.remove("big"));
-    });
     document.querySelectorAll(".mag").forEach((b) => {
       b.addEventListener("pointermove", (e) => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .22}px, ${(e.clientY - r.top - r.height / 2) * .3}px)`; });
       b.addEventListener("pointerleave", () => { b.style.transform = ""; });

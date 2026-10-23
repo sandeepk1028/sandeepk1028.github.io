@@ -6,15 +6,22 @@
   // Google Apps Script web app that handles approvals (see access-backend/SETUP.md). Leave empty to use plain email requests.
   var API = "";
 
+  // fetch that gives up after a while instead of hanging forever
+  function tfetch(url, opts, ms) {
+    var c = window.AbortController ? new AbortController() : null, t = setTimeout(function () { if (c) c.abort(); }, ms || 12000);
+    opts = opts || {}; if (c) opts.signal = c.signal;
+    var race = new Promise(function (_, rej) { setTimeout(function () { rej(new Error("timeout")); }, (ms || 12000) + 500); });
+    return Promise.race([fetch(url, opts), race]).then(function (r) { clearTimeout(t); return r; }, function (e) { clearTimeout(t); throw e; });
+  }
   window.skSend = function (p) {
-    return fetch("https://formsubmit.co/ajax/" + MAIL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    return tfetch("https://formsubmit.co/ajax/" + MAIL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({ name: p.name, email: p.email, _subject: p.subject, message: p.message, _template: "table", _captcha: "false", _honey: "" }) })
       .then(function (r) { return r.json().catch(function () { return {}; }); })
       .then(function (j) { if (j && (j.success === true || j.success === "true")) return true; throw new Error((j && j.message) || "send failed"); })
       .catch(function (err) { try { console.warn("[access form] could not send:", err && err.message); } catch (x) {} throw err; });
   };
   function verify(token) {
-    return fetch(API + "?action=verify&token=" + encodeURIComponent(token)).then(function (r) { return r.json(); });
+    return tfetch(API + "?action=verify&token=" + encodeURIComponent(token), {}, 10000).then(function (r) { return r.json(); });
   }
 
   var root = document.documentElement, store = null;
@@ -115,7 +122,7 @@
       }
       function bad(err) { btn.disabled = false; btn.innerHTML = label; if (err && err.userMessage) say(err.userMessage, "err"); else fail(); }
       if (API) {
-        fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "request", name: n, email: em, reason: why, website: g.querySelector("#skg-w").value }) })
+        tfetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "request", name: n, email: em, reason: why, website: g.querySelector("#skg-w").value }) }, 20000)
           .then(function (r) { return r.json(); })
           .then(function (j) { if (j && j.ok) done(); else { var er = new Error("rejected"); er.userMessage = j && j.error; throw er; } })
           .catch(bad);

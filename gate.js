@@ -14,6 +14,17 @@
     return Promise.race([fetch(url, opts), race]).then(function (r) { clearTimeout(t); return r; }, function (e) { clearTimeout(t); throw e; });
   }
   window.skSend = function (p) {
+    if (API) {
+      return tfetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "message", name: p.name, email: p.email, subject: p.subject, message: p.message, website: "" }) }, 20000)
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (j && j.ok) return true;
+          var er = new Error((j && j.error) || "rejected");
+          if (j && j.error && j.error !== "Unknown action.") er.userMessage = j.error;   // an old script does not know "message" yet
+          throw er;
+        })
+        .catch(function (err) { try { console.warn("[contact form] could not send:", err && err.message); } catch (x) {} throw err; });
+    }
     return tfetch("https://formsubmit.co/ajax/" + MAIL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({ name: p.name, email: p.email, _subject: p.subject, message: p.message, _template: "table", _captcha: "false", _honey: "" }) })
       .then(function (r) { return r.json().catch(function () { return {}; }); })

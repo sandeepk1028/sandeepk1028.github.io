@@ -1162,6 +1162,7 @@
           log.appendChild(again); scroll();
         } catch (er) {
           a.disabled = false; a.innerHTML = 'Send message <span class="arr" aria-hidden="true">→</span>';
+          if (er && er.userMessage) { st.className = "status err"; st.textContent = er.userMessage; return; }
           st.className = "status err"; st.innerHTML = 'I could not send that automatically. Please use Copy message, or email <a href="mailto:' + EMAIL + '?subject=' + encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(m.body) + '">' + EMAIL + '</a>.';
         }
       });

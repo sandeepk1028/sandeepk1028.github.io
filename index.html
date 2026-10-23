@@ -154,6 +154,7 @@
   .label { display: inline-flex; align-items: center; gap: 10px; font: 500 13px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text-2); }
   .label::before { content: ""; width: 26px; height: 1.5px; background: var(--grad); }
   .h2 { font-weight: 800; font-size: clamp(36px, 5.4vw, 68px); line-height: 1; letter-spacing: -.04em; margin: 18px 0 0; }
+  .h2.one { font-size: clamp(26px, 4.2vw, 52px); white-space: nowrap; }
   .shead { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 64px; }
   .shead p { max-width: 42ch; color: var(--text-2); margin: 0; }
 
@@ -619,7 +620,7 @@
 
   <section class="sec" id="projects">
     <div class="wrap">
-      <div class="shead"><div><span class="label" data-r>Portfolio</span><h2 class="h2" data-r style="--d:.05s">Featured<br>Projects</h2></div><p data-r style="--d:.1s">Wireless audio, semi-automated robotics and commercial devices. Pick a project to see the details</p></div>
+      <div class="shead"><div><span class="label" data-r>Projects</span><h2 class="h2 one" data-r style="--d:.05s">Featured Projects</h2></div><p data-r style="--d:.1s">Wireless audio, semi-automated robotics and commercial devices. Pick a project to see the details</p></div>
       <div class="pv" id="pv" data-r>
         <div class="pl" role="tablist" aria-label="Projects"></div>
         <div class="pd">

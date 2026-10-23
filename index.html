@@ -78,13 +78,8 @@
   .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .hero .glow { position: absolute; width: 720px; height: 720px; right: -160px; top: -120px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--a1) 22%, transparent), transparent 65%); filter: blur(10px); pointer-events: none; }
   .hg { position: relative; max-width: 980px; }
-  .ic { position: relative; display: inline-flex; flex-direction: column; gap: 4px; padding: 14px 26px 14px 30px; margin: 4px 0 30px; border: 1.5px solid color-mix(in srgb, var(--a1) 55%, transparent); border-radius: 8px; background: var(--surface); font-family: var(--mono); }
-  .ic::before, .ic::after { content: ""; position: absolute; left: 22px; right: 22px; height: 6px; background: repeating-linear-gradient(90deg, var(--a1) 0 3px, transparent 3px 11px); opacity: .85; }
-  .ic::before { top: -7px; } .ic::after { bottom: -7px; }
-  .ic .n { position: absolute; left: 10px; top: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--a1); box-shadow: 0 0 10px var(--a1); }
-  .ic .k { font-size: 11px; letter-spacing: .22em; color: var(--text-3); }
-  .ic b { font: 700 clamp(18px, 2.2vw, 24px)/1.15 var(--display); letter-spacing: -.01em; color: var(--text); }
-  .ic .at { font-size: 13px; color: var(--a1); }
+  .role { display: flex; align-items: center; gap: 16px; margin: 0 0 26px; font: 600 clamp(16px, 2vw, 24px)/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--a1); }
+  .role::before { content: ""; width: 48px; height: 2px; border-radius: 2px; background: var(--grad); }
   .hintro { max-width: 640px; margin: 0 0 28px; font-size: clamp(17px, 1.7vw, 20px); line-height: 1.6; color: var(--text-2); }
   .hspec { display: grid; grid-template-columns: repeat(3, auto); gap: 0; margin: 0 0 38px; padding: 0; list-style: none; width: fit-content; max-width: 100%; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
   .hspec li { padding: 16px 24px; border-left: 1px solid var(--line); }
@@ -309,7 +304,7 @@
   <div class="wrap">
     <div class="hg">
       <h1 class="name" aria-label="Sandeep Kumar K"><span class="ln" data-split>Sandeep Kumar <span class="k">K</span></span></h1>
-      <div class="ic fade" style="--d:.7s"><i class="n" aria-hidden="true"></i><span class="k">ROLE</span><b>Embedded Engineer</b><span class="at">@ OpenEcore</span></div>
+      <p class="role fade" style="--d:.7s">Embedded Engineer</p>
       <p class="hintro fade" style="--d:.85s">I build firmware for wireless audio devices, from the first schematic to the final validation run.</p>
       <ul class="hspec fade" style="--d:1s" aria-label="Highlights">
         <li><span>FOCUS</span><b>BLE Audio &amp; Auracast</b></li>

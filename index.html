@@ -102,8 +102,8 @@
   .name { font-weight: 800; font-size: clamp(32px, 6.6vw, 96px); line-height: 1; letter-spacing: -.045em; margin: 0 0 clamp(14px, 2vw, 24px); white-space: nowrap; }
   .name .ln { display: block; padding-bottom: .06em; }
   .name .ch { display: inline-block; text-align: center; }
-  .name, .name .k { color: var(--text); }
-  .name .k { background: none; -webkit-text-fill-color: var(--text); }
+  .name { color: var(--text); filter: drop-shadow(0 8px 36px color-mix(in srgb, var(--a1) 30%, transparent)); }
+  .name .ch, .name .k { background: linear-gradient(180deg, #fffaf1 12%, #f6e3c3 62%, #eebd7c 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
   .hero .cta { justify-content: center; margin-top: 44px; }
   .btn { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 16px 26px; border-radius: 999px; font: 700 15px/1 var(--body); cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--text); overflow: hidden; isolation: isolate; transition: border-color .3s, color .3s; will-change: transform; }
   .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--grad); transform: translateY(101%); transition: transform .45s var(--ease); }

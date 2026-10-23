@@ -6,7 +6,8 @@
     return fetch("https://formsubmit.co/ajax/" + MAIL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({ name: p.name, email: p.email, _subject: p.subject, message: p.message, _template: "table", _captcha: "false", _honey: "" }) })
       .then(function (r) { return r.json().catch(function () { return {}; }); })
-      .then(function (j) { if (j && (j.success === true || j.success === "true")) return true; throw new Error((j && j.message) || "send failed"); });
+      .then(function (j) { if (j && (j.success === true || j.success === "true")) return true; throw new Error((j && j.message) || "send failed"); })
+      .catch(function (err) { try { console.warn("[access form] could not send:", err && err.message); } catch (x) {} throw err; });
   };
   var root = document.documentElement, store = null;
   try { store = window.localStorage; } catch (e) {}

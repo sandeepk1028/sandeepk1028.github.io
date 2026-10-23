@@ -207,29 +207,8 @@
   .job.reached .rl:nth-child(1) li:nth-child(2) { transition-delay: .35s; }
   .job.reached .rl:nth-child(1) li:nth-child(3) { transition-delay: .45s; }
 
-  /* Projects */
-  .pgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; }
-  .pc { grid-column: span 2; position: relative; padding: 30px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column; gap: 14px; min-height: 300px; transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s var(--ease), border-color .3s, box-shadow .3s; }
-  .pc.wide { grid-column: span 3; }
-  .pc::before { content: ""; position: absolute; inset: 0; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--a1) 16%, transparent), transparent 60%); opacity: 0; transition: opacity .4s; pointer-events: none; }
-  .pc:hover { border-color: color-mix(in srgb, var(--a1) 45%, var(--line)); box-shadow: var(--shadow); }
-  .pc:hover::before { opacity: 1; }
-  .pc .org { font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); display: flex; justify-content: space-between; }
-  .pc .org b { font-weight: 500; color: var(--a1); }
-  .pc h3 { font-weight: 700; font-size: clamp(24px, 2.4vw, 30px); letter-spacing: -.03em; line-height: 1.1; }
-  .pc p { margin: 0; color: var(--text-2); flex: 1; }
-  .pc .ico { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: var(--accent-soft); color: var(--a1); transition: transform .5s var(--ease); }
-  .pc:hover .ico { transform: rotate(-8deg) scale(1.08); }
-  .pc .ico svg { width: 26px; height: 26px; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
   .tags li { font: 500 12px/1 var(--mono); padding: 8px 11px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-2); }
-  .pc.feat { background: var(--inv); color: var(--inv-text); border-color: var(--inv); }
-  .pc.feat p, .pc.feat .tags li { color: color-mix(in srgb, var(--inv-text) 72%, transparent); }
-  .pc.feat .tags li { border-color: color-mix(in srgb, var(--inv-text) 22%, transparent); }
-  .pc.feat .org { color: color-mix(in srgb, var(--inv-text) 55%, transparent); }
-  .pc.feat .ico { background: var(--grad); color: var(--on-accent); }
-  .pc.feat::before { background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--a2) 26%, transparent), transparent 60%); }
-  .pc.feat .wave { position: absolute; right: -20px; bottom: -10px; width: 60%; opacity: .5; }
 
   /* Skills */
   .sk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
@@ -282,7 +261,6 @@
   @media (max-width: 960px) {
     .hg, .about-g, .cg { grid-template-columns: 1fr; }
     .photo { max-width: 380px; }
-    .pc, .pc.wide { grid-column: span 3; }
     .sk { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 640px) {
@@ -292,7 +270,6 @@
     .photo { max-width: 100%; }
     .photo .badge { left: 12px; }
       section.sec { padding-block: 90px; }
-    .pc, .pc.wide { grid-column: span 6; min-height: 0; }
     .sk, .edu, .row { grid-template-columns: 1fr; }
     .tl { padding-left: 34px; }
     .tl::before, .tl::after { left: 5px; }
@@ -304,21 +281,6 @@
     .contact { border-radius: 28px; }
     }
   /* Redesign: Projects, Skills, Education, Contact */
-  .pgrid { counter-reset: p; }
-  .pc { counter-increment: p; padding: 36px 32px 30px; }
-  .pc h3::before { content: "P" counter(p, decimal-leading-zero); display: block; margin-bottom: 12px; font: 500 12px/1 var(--mono); letter-spacing: .18em; color: var(--a1); }
-  .pc::after { content: ""; position: absolute; left: 34px; right: 34px; top: 0; height: 7px; pointer-events: none; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--text-3) 55%, transparent) 0 3px, transparent 3px 12px); transition: opacity .4s; }
-  .pc:hover::after { background: repeating-linear-gradient(90deg, var(--a1) 0 3px, transparent 3px 12px); animation: pinrun .9s linear infinite; }
-  .pc.feat::after { background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--inv-text) 45%, transparent) 0 3px, transparent 3px 12px); }
-  .pc.feat:hover::after { background: repeating-linear-gradient(90deg, var(--a1) 0 3px, transparent 3px 12px); }
-  @keyframes pinrun { to { background-position: 12px 0; } }
-  .pc .ico { border-radius: 14px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a1) 30%, transparent); }
-  .pc:hover { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px); }
-  .tags li { transition: border-color .3s, color .3s, transform .3s var(--ease); }
-  .pc:hover .tags li { border-color: color-mix(in srgb, var(--a1) 40%, var(--line)); }
-  .anim .pgrid .pc:nth-child(3n+2) { --d: .1s; }
-  .anim .pgrid .pc:nth-child(3n) { --d: .2s; }
-
   .sk { grid-template-columns: 1fr; gap: 0; counter-reset: s; border-top: 1px solid var(--line); }
   .skc { counter-increment: s; position: relative; display: grid; grid-template-columns: minmax(200px, 280px) 1fr; gap: 14px 48px; align-items: start; padding: 30px 8px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; transition: background-color .4s; }
   .skc:hover { background: color-mix(in srgb, var(--a1) 4%, transparent); }
@@ -365,6 +327,60 @@
   .ln2:hover > span[aria-hidden] { transform: translate(3px, -3px); }
   .fld input:focus, .fld textarea:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--a1) 22%, transparent); border-color: var(--a1); }
   @media (max-width: 960px) { .sk { grid-template-columns: 1fr; } .skc { grid-template-columns: 1fr; } .cg { grid-template-columns: 1fr; } }
+
+  /* Projects viewer */
+  .pv { display: grid; grid-template-columns: minmax(250px, 340px) minmax(0, 1fr); gap: 36px; align-items: start; }
+  .pl { display: grid; gap: 6px; align-content: start; }
+  .pl button { position: relative; overflow: hidden; display: grid; grid-template-columns: auto 1fr; gap: 3px 16px; align-items: center; width: 100%; text-align: left; padding: 15px 18px; border-radius: 16px; border: 1px solid transparent; background: none; color: var(--text-2); font: inherit; cursor: pointer; transition: background-color .35s, border-color .35s, color .35s, transform .4s var(--ease); }
+  .pl button:hover { color: var(--text); transform: translateX(4px); }
+  .pl button:focus-visible { outline: 2px solid var(--a1); outline-offset: 2px; }
+  .pl .n { grid-row: span 2; font: 500 12px/1 var(--mono); letter-spacing: .16em; color: var(--text-3); transition: color .35s; }
+  .pl .t { font: 600 17px/1.25 var(--display); letter-spacing: -.01em; }
+  .pl .o { font: 500 11px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+  .pl button[aria-selected="true"] { background: var(--surface); border-color: var(--line); color: var(--text); transform: translateX(8px); }
+  .pl button[aria-selected="true"] .n { color: var(--a1); }
+  .pl button::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--grad); transform: scaleX(0); transform-origin: 0 50%; }
+  .pl button[aria-selected="true"]::after { transform: scaleX(1); }
+  .pv.auto .pl button[aria-selected="true"]::after { animation: pfill var(--cycle, 7s) linear forwards; }
+  .pv.paused .pl button[aria-selected="true"]::after { animation-play-state: paused; }
+  @keyframes pfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .pd { position: relative; display: grid; min-height: 440px; padding: 46px 46px 42px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
+  .pd::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(520px circle at 100% 0%, color-mix(in srgb, var(--a1) 14%, transparent), transparent 62%); }
+  .pd::after { content: ""; position: absolute; top: 40px; bottom: 40px; right: 0; width: 7px; pointer-events: none; background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--text-3) 55%, transparent) 0 3px, transparent 3px 12px); }
+  .pi { grid-area: 1 / 1; position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; visibility: hidden; transition: visibility 0s .5s; }
+  .pi.on { visibility: visible; transition-delay: 0s; }
+  .pi::before { content: attr(data-n); position: absolute; right: 8px; top: -26px; font: 800 clamp(120px, 16vw, 220px)/1 var(--display); letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--text-3) 35%, transparent); pointer-events: none; opacity: 0; transform: translateY(20px); transition: opacity .7s var(--ease), transform .9s var(--ease); }
+  .pi.on::before { opacity: 1; transform: none; transition-delay: .1s; }
+  .pi > * { position: relative; opacity: 0; transform: translateY(16px); transition: opacity .45s var(--ease), transform .6s var(--ease); }
+  .pi.on > * { opacity: 1; transform: none; }
+  .pi.on > :nth-child(2) { transition-delay: .08s; }
+  .pi.on > :nth-child(3) { transition-delay: .16s; }
+  .pi.on > :nth-child(4) { transition-delay: .24s; }
+  .pi.on > :nth-child(5) { transition-delay: .32s; }
+  .pi.on > :nth-child(6) { transition-delay: .4s; }
+  .pi .org { display: flex; align-items: center; gap: 12px; font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); }
+  .pi .org b { font-weight: 500; color: var(--a1); padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--a1) 40%, transparent); }
+  .pi .ico { width: 62px; height: 62px; border-radius: 18px; display: grid; place-items: center; background: var(--accent-soft); color: var(--a1); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a1) 30%, transparent); }
+  .pi.feat .ico { background: var(--grad); color: var(--on-accent); box-shadow: 0 10px 30px -10px var(--a1); }
+  .pi .ico svg { width: 30px; height: 30px; }
+  .pi h3 { max-width: 16ch; font-weight: 700; font-size: clamp(32px, 4vw, 50px); letter-spacing: -.035em; line-height: 1.05; }
+  .pi p { margin: 0; max-width: 54ch; font-size: 18px; line-height: 1.6; color: var(--text-2); }
+  .pi .tags { margin-top: auto; padding-top: 6px; }
+  .pi .tags li { font-size: 13px; padding: 9px 13px; }
+  .pi .btn { margin-top: 4px; }
+  @media (max-width: 860px) {
+    .pv { grid-template-columns: 1fr; gap: 18px; }
+    .pl { grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; padding-bottom: 4px; }
+    .pl::-webkit-scrollbar { display: none; }
+    .pl button { grid-template-columns: auto; border-color: var(--line); border-radius: 999px; padding: 11px 16px; scroll-snap-align: start; }
+    .pl .n, .pl .o { display: none; }
+    .pl .t { font-size: 14px; white-space: nowrap; }
+    .pl button:hover, .pl button[aria-selected="true"] { transform: none; }
+    .pl button[aria-selected="true"] { background: var(--accent-soft); border-color: var(--a1); }
+    .pd { min-height: 0; padding: 30px 24px 28px; }
+    .pi p { font-size: 16px; }
+    .pi::before { font-size: 110px; top: auto; bottom: -34px; right: 0; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -507,57 +523,60 @@
 
   <section class="sec" id="projects">
     <div class="wrap">
-      <div class="shead"><div><span class="label" data-r>Selected work</span><h2 class="h2" data-r style="--d:.05s">Projects that<br>made noise</h2></div><p data-r style="--d:.1s">Wireless audio, semi-automated robotics and commercial hardware. Move your cursor over a card.</p></div>
-      <div class="pgrid">
-        <article class="pc wide feat tilt" data-r>
+      <div class="shead"><div><span class="label" data-r>Selected work</span><h2 class="h2" data-r style="--d:.05s">Projects that<br>made noise</h2></div><p data-r style="--d:.1s">Wireless audio, semi-automated robotics and commercial hardware. Pick a project to see the details.</p></div>
+      <div class="pv" id="pv" data-r>
+        <div class="pl" role="tablist" aria-label="Projects"></div>
+        <div class="pd">
+        <article class="pi feat">
           <div class="org"><span>OpenEcore</span><b>Featured</b></div>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 12h.01M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg></span>
           <h3>Auracast Devices</h3>
           <p>Transmitter, receiver and assistant devices for BLE Audio broadcast, including the multi-channel I2S/TDM audio path with the LC3 codec.</p>
           <ul class="tags"><li>STM32WBA55G</li><li>NXH3675</li><li>LC3</li><li>TDM</li></ul>
         </article>
-        <article class="pc wide tilt" data-r style="--d:.08s">
+        <article class="pi">
           <div class="org"><span>OpenEcore</span><b>Android</b></div>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span>
           <h3>SkyAmour</h3>
           <p>An Android app that enables Auracast listening on phones that don't support it natively.</p>
           <ul class="tags"><li>Android</li><li>Auracast</li><li>BLE Audio</li></ul>
         </article>
-        <article class="pc tilt" data-r>
+        <article class="pi">
           <div class="org"><span>Kruthak</span><b>Semi-automated robotics</b></div>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/></svg></span>
           <h3>COFRO</h3>
           <p>A semi-automated robotic coffee bean plucking machine using camera-based AI vision and embedded control.</p>
           <ul class="tags"><li>Computer vision</li><li>Firmware</li></ul>
         </article>
-        <article class="pc tilt" data-r style="--d:.08s">
+        <article class="pi">
           <div class="org"><span>Factana</span><b>Hardware</b></div>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span>
           <h3>APM, OCR &amp; DWK</h3>
           <p>Firmware, hardware design and validation for three commercial device lines, plus an RS232 test kit.</p>
           <ul class="tags"><li>RS232</li><li>PCB</li><li>BOM</li></ul>
         </article>
-        <article class="pc tilt" data-r style="--d:.16s">
+        <article class="pi">
           <div class="org"><span>Pi Square</span><b>Safety</b></div>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
           <h3>Alcohol &amp; Drowsiness Detection</h3>
           <p>A driver safety system that monitors alcohol and alertness in real time and acts when limits are crossed.</p>
           <ul class="tags"><li>Sensors</li><li>MCU</li></ul>
         </article>
-        <article class="pc wide tilt" data-r>
+        <article class="pi">
           <div class="org"><span>Final-year project</span><b>Semi-automated robotics</b></div>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12c0-4 3-7 7-7 0 4-3 7-7 7zM12 14c0-3-2.5-5.5-6-5.5 0 3 2.5 5.5 6 5.5z"/></svg></span>
           <h3>Smart Gardener</h3>
           <p>An autonomous lawn-cutting robot that navigates terrain with sensors, as an eco-friendly alternative to manual mowing.</p>
           <ul class="tags"><li>Navigation</li><li>Sensors</li><li>Motor control</li></ul>
         </article>
-        <article class="pc wide tilt" data-r style="--d:.08s">
+        <article class="pi">
           <div class="org"><span>Open source</span><b>GitHub</b></div>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg></span>
           <h3>More on GitHub</h3>
           <p>Code, experiments and side projects live on my GitHub profile.</p>
           <a class="btn mag" href="https://github.com/sandeepk1028" target="_blank" rel="noopener" style="align-self:flex-start">github.com/sandeepk1028 <span class="arr" aria-hidden="true">→</span></a>
         </article>
+        </div>
       </div>
     </div>
   </section>
@@ -866,6 +885,47 @@
   });
 
   document.getElementById("about-resume").addEventListener("click", () => document.getElementById("dl-resume").click());
+
+  // Projects viewer: list on the left, detail panel on the right, auto-advance while visible
+  (function () {
+    const pv = document.getElementById("pv"); if (!pv) return;
+    const pl = pv.querySelector(".pl"), items = [...pv.querySelectorAll(".pi")];
+    const CYCLE = 7000; let cur = 0, timer = null, picked = false, hover = false, shown = false;
+    const btns = items.map((it, i) => {
+      const b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "tab"); b.id = "pt" + i; b.setAttribute("aria-controls", "pp" + i);
+      const org = it.querySelector(".org span"), tag = it.querySelector(".org b");
+      b.innerHTML = `<span class="n">${String(i + 1).padStart(2, "0")}</span><span class="t"></span><span class="o"></span>`;
+      b.querySelector(".t").textContent = it.querySelector("h3").textContent;
+      b.querySelector(".o").textContent = org ? org.textContent : "";
+      it.id = "pp" + i; it.setAttribute("role", "tabpanel"); it.setAttribute("aria-labelledby", "pt" + i); it.setAttribute("data-n", String(i + 1).padStart(2, "0"));
+      b.addEventListener("click", () => { picked = true; pv.classList.remove("auto"); select(i); });
+      pl.appendChild(b); return b;
+    });
+    pl.addEventListener("keydown", (e) => {
+      const k = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (!k) return;
+      e.preventDefault(); picked = true; pv.classList.remove("auto"); const n = (cur + k + items.length) % items.length; select(n); btns[n].focus();
+    });
+    function select(i) {
+      cur = i;
+      items.forEach((it, j) => { it.classList.toggle("on", j === i); it.setAttribute("aria-hidden", j === i ? "false" : "true"); });
+      btns.forEach((b, j) => { b.setAttribute("aria-selected", j === i ? "true" : "false"); b.tabIndex = j === i ? 0 : -1; });
+      if (pv.classList.contains("auto")) { pv.classList.remove("auto"); void pv.offsetWidth; pv.classList.add("auto"); }
+      schedule();
+    }
+    function schedule() {
+      clearTimeout(timer);
+      if (!animate || picked || !shown || hover) return;
+      timer = setTimeout(() => select((cur + 1) % items.length), CYCLE);
+    }
+    pv.style.setProperty("--cycle", CYCLE + "ms");
+    pv.addEventListener("pointerenter", () => { hover = true; pv.classList.add("paused"); clearTimeout(timer); });
+    pv.addEventListener("pointerleave", () => { hover = false; pv.classList.remove("paused"); if (!picked) select(cur); });
+    select(0);
+    new IntersectionObserver((es) => {
+      shown = es[0].isIntersecting;
+      if (shown && animate && !picked) { pv.classList.add("auto"); select(cur); } else { clearTimeout(timer); pv.classList.remove("auto"); }
+    }, { threshold: .35 }).observe(pv);
+  })();
 
   // Contact form
   const form = document.getElementById("contact-form"), fs = document.getElementById("form-status");

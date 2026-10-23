@@ -175,7 +175,9 @@
   .job .top { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: baseline; }
   .job h3 { font-weight: 700; font-size: clamp(22px, 2.4vw, 28px); letter-spacing: -.02em; }
   .job .when { font: 500 13px/1.4 var(--mono); color: var(--text-3); font-variant-numeric: tabular-nums; }
-  .job .co { font-weight: 700; margin: 6px 0 18px; }
+  .job .co { display: flex; align-items: center; gap: 14px; font-weight: 700; margin: 10px 0 20px; }
+  .job .logo { flex: none; display: grid; place-items: center; height: 52px; min-width: 52px; padding: 8px 10px; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px #0004; }
+  .job .logo img { display: block; height: 36px; width: auto; }
   .job .co small { color: var(--text-3); font-weight: 500; font-size: 14px; }
   .job ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; color: var(--text-2); }
   .job li { position: relative; padding-left: 24px; }
@@ -352,7 +354,7 @@
       <ol class="tl" id="tl">
         <li class="job now" data-r>
           <div class="top"><h3>Embedded Engineer</h3><span class="when">Apr 2025 – Present</span></div>
-          <p class="co">OpenEcore Private Limited <small>(formerly Kruthak Technology)</small></p>
+          <p class="co"><span class="logo"><img src="logos/openecore.png" alt="OpenEcore logo"></span><span>OpenEcore Private Limited <small>(formerly Kruthak Technology)</small></span></p>
           <ul>
             <li>Built Auracast transmitter, receiver and assistant devices.</li>
             <li>Scaled I2S/TDM audio from mono to 4-channel on STM32WBA55G and NXH3675.</li>
@@ -369,7 +371,7 @@
         </li>
         <li class="job" data-r>
           <div class="top"><h3>Junior Embedded Engineer</h3><span class="when">Nov 2023 – Jul 2024</span></div>
-          <p class="co">Factana Computing Private Limited</p>
+          <p class="co"><span class="logo"><img src="logos/factana.png" alt="Factana logo" style="height:30px"></span><span>Factana Computing Private Limited</span></p>
           <ul>
             <li>Hardware, firmware and validation for three commercial device lines: APM, DWK and OCR.</li>
             <li>Built a custom RS232 test kit that shortened device connectivity validation.</li>
@@ -378,7 +380,7 @@
         </li>
         <li class="job" data-r>
           <div class="top"><h3>Embedded Engineer Intern</h3><span class="when">Feb 2023 – Jun 2023</span></div>
-          <p class="co">Pi Square Technologies</p>
+          <p class="co"><span class="logo"><img src="logos/pisquare.png" alt="Pi Square Technologies logo"></span><span>Pi Square Technologies</span></p>
           <ul>
             <li>Developed a sensor-based alcohol and drowsiness detection system with automatic safety actions.</li>
           </ul>

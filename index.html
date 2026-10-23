@@ -8,6 +8,7 @@
 <script>
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) document.documentElement.classList.add("anim");
 </script>
+<script src="gate.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -883,7 +884,7 @@
       jobs.forEach((j, i) => j.classList.toggle("reached", fy >= ys[i]));
     }
     let cur = -1;
-    secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * .4) cur = i; });
+    secs.forEach((s, i) => { if (s && s.offsetHeight && s.getBoundingClientRect().top < innerHeight * .4) cur = i; });
     links.forEach((a, i) => a.classList.toggle("active", i === cur));
     ticking = false;
   }

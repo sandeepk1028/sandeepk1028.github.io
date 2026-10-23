@@ -407,7 +407,7 @@
   /* Contact conversation */
   .cx { position: relative; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
   .anim .cx[data-r]:not(.in) { opacity: 1; transform: none; }
-  .cxh { margin: 22px 0 22px; font-weight: 800; font-size: clamp(64px, 11vw, 148px); line-height: .9; letter-spacing: -.055em; }
+  .cxh { margin: 22px 0 22px; font-weight: 800; font-size: clamp(32px, 5.5vw, 74px); line-height: .95; letter-spacing: -.05em; }
   .cxh .w { display: block; overflow: hidden; padding-bottom: .12em; }
   .cxh .w > span { display: inline-block; transition: transform 1.2s var(--ease); transition-delay: calc(var(--i) * 140ms + .1s); }
   .cxh .g { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -472,7 +472,7 @@
   .chat-f .send:hover { transform: scale(1.08) rotate(-6deg); box-shadow: 0 10px 28px -8px var(--a1); }
   .chat-f .send:disabled { opacity: .4; cursor: default; transform: none; box-shadow: none; }
   .chat .status { margin: 0; padding: 0 26px 16px; min-height: 0; }
-  @media (max-width: 960px) { .cx { grid-template-columns: 1fr; } .cxh { font-size: clamp(64px, 18vw, 128px); } }
+  @media (max-width: 960px) { .cx { grid-template-columns: 1fr; } .cxh { font-size: clamp(40px, 9vw, 64px); } }
   @media (max-width: 560px) { .chat-b { padding: 18px 16px; } .b { max-width: 92%; font-size: 15px; } .chat-h { padding: 16px 18px; } .chat-f { padding: 12px 14px 14px; } .cxrow .v { font-size: 13px; } }
 
   @media (prefers-reduced-motion: reduce) {

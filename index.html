@@ -105,7 +105,6 @@
   .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .hero .glow { position: absolute; width: 720px; height: 720px; right: -160px; top: -120px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--a1) 22%, transparent), transparent 65%); filter: blur(10px); pointer-events: none; }
   .hg { position: relative; max-width: 980px; }
-  .hello { font: 600 clamp(20px, 2.4vw, 28px)/1.2 var(--display); letter-spacing: -.02em; color: var(--text-2); margin: 0; }
   .hskills { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin: 28px 0 38px; padding: 0; max-width: 760px; }
   .hskills li { padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font: 600 15px/1 var(--body); box-shadow: 0 1px 2px #0b102008; transition: border-color .3s, color .3s, transform .3s var(--ease); }
   .hskills li:hover { border-color: var(--a1); color: var(--a1); transform: translateY(-3px); }
@@ -113,7 +112,7 @@
   .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; position: relative; }
   .eyebrow .dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid #22c55e; animation: ping 1.8s var(--ease) infinite; }
   @keyframes ping { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
-  .name { font-weight: 800; font-size: clamp(32px, 8.6vw, 124px); line-height: 1; letter-spacing: -.045em; margin: 10px 0 26px; white-space: nowrap; }
+  .name { font-weight: 800; font-size: clamp(32px, 8.6vw, 124px); line-height: 1; letter-spacing: -.045em; margin: 0 0 26px; white-space: nowrap; }
   .name .ln { display: block; overflow: hidden; padding-bottom: .06em; }
   .name .ch { display: inline-block; }
   .name .k { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -153,7 +152,14 @@
 
 
   /* Sections */
-  section.sec { padding-block: 130px; position: relative; }
+  section.sec { padding-block: 130px; position: relative; isolation: isolate; }
+  /* Circuit-board backdrop and trace divider between sections */
+  section.sec::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--a1); opacity: .09; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M0 40H60l30 30h60l20-20h60'/%3E%3Cpath d='M30 240v-70l30-30v-40'/%3E%3Cpath d='M240 200h-50l-30-30h-40v-40'/%3E%3Cpath d='M120 240v-30l20-20'/%3E%3Ccircle cx='230' cy='50' r='4'/%3E%3Ccircle cx='60' cy='100' r='4'/%3E%3Ccircle cx='120' cy='130' r='4'/%3E%3Ccircle cx='140' cy='190' r='4'/%3E%3Crect x='176' y='84' width='40' height='40' rx='3'/%3E%3Cpath d='M184 84v-8M196 84v-8M208 84v-8M184 124v8M196 124v8M208 124v8M176 92h-8M176 104h-8M176 116h-8M216 92h8M216 104h8M216 116h8'/%3E%3Ccircle cx='183' cy='91' r='1.5' fill='black'/%3E%3C/svg%3E") 0 0 / 240px 240px; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M0 40H60l30 30h60l20-20h60'/%3E%3Cpath d='M30 240v-70l30-30v-40'/%3E%3Cpath d='M240 200h-50l-30-30h-40v-40'/%3E%3Cpath d='M120 240v-30l20-20'/%3E%3Ccircle cx='230' cy='50' r='4'/%3E%3Ccircle cx='60' cy='100' r='4'/%3E%3Ccircle cx='120' cy='130' r='4'/%3E%3Ccircle cx='140' cy='190' r='4'/%3E%3Crect x='176' y='84' width='40' height='40' rx='3'/%3E%3Cpath d='M184 84v-8M196 84v-8M208 84v-8M184 124v8M196 124v8M208 124v8M176 92h-8M176 104h-8M176 116h-8M216 92h8M216 104h8M216 116h8'/%3E%3Ccircle cx='183' cy='91' r='1.5' fill='black'/%3E%3C/svg%3E") 0 0 / 240px 240px; }
+  .anim section.sec::before { animation: pcbdrift 90s linear infinite; }
+  @keyframes pcbdrift { to { -webkit-mask-position: 240px 240px; mask-position: 240px 240px; } }
+  section.sec::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; pointer-events: none; background: linear-gradient(90deg, transparent, var(--a2), var(--a1), transparent) -40% 0 / 40% 100% no-repeat, linear-gradient(90deg, transparent, var(--line) 15%, var(--line) 85%, transparent); }
+  .anim section.sec::after { animation: tracerun 5s var(--ease) infinite; }
+  @keyframes tracerun { to { background-position: 140% 0, 0 0; } }
   .label { display: inline-flex; align-items: center; gap: 10px; font: 500 13px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text-2); }
   .label::before { content: ""; width: 26px; height: 1.5px; background: var(--grad); }
   .h2 { font-weight: 800; font-size: clamp(36px, 5.4vw, 68px); line-height: 1; letter-spacing: -.04em; margin: 18px 0 0; }
@@ -328,7 +334,6 @@
   <div class="glow" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hg">
-      <p class="hello fade" style="--d:.1s">Hello, I'm</p>
       <h1 class="name" aria-label="Sandeep Kumar K"><span class="ln" data-split>Sandeep Kumar <span class="k">K</span></span></h1>
       <span class="eyebrow fade" style="--d:.7s"><span class="dot" aria-hidden="true"></span>Embedded Engineer at OpenEcore</span>
       <ul class="hskills" aria-label="Key skills">
@@ -657,19 +662,73 @@
     ph.addEventListener("pointerleave", () => { fr.style.setProperty("--rx", "0deg"); fr.style.setProperty("--ry", "0deg"); });
   }
 
-  // Broadcast rings in the hero (Auracast-style), paused when offscreen
+  // Circuit traces and a chip in the hero: signal pulses run out of the chip pins, paused when offscreen
   const cv = document.getElementById("rings"), ctx = cv.getContext("2d");
-  let W = 0, H = 0, dpr = 1, visible = true, rc = "61,90,254";
-  function size() { dpr = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); rc = getComputedStyle(root).getPropertyValue("--ring").trim() || rc; }
+  let W = 0, H = 0, dpr = 1, visible = true, rc = "61,90,254", traces = [], chip = { x: 0, y: 0, s: 0 };
+  const DIRS = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
   function center() { return [W * (W > 900 ? .84 : .9), H * .42]; }
+  function route(x, y, a, lat, rnd, g, n) {
+    const pts = [[x, y]], u = DIRS[a];
+    const dd = [(a + 1) % 8, (a + 7) % 8].find((d) => Math.sign(DIRS[d][0] * -u[1] + DIRS[d][1] * u[0]) === lat) ?? (a + 1) % 8;
+    for (let i = 0; i < n; i++) {
+      const l1 = g * (2 + Math.floor(rnd() * 6)), l2 = g * (1 + Math.floor(rnd() * 3));
+      x += u[0] * l1; y += u[1] * l1; pts.push([x, y]);
+      x += DIRS[dd][0] * l2; y += DIRS[dd][1] * l2; pts.push([x, y]);
+      if (x < -20 || y < -20 || x > W + 20 || y > H + 20) break;
+      const l3 = g * (1 + Math.floor(rnd() * 3));
+      x += u[0] * l3; y += u[1] * l3; pts.push([x, y]);
+      if (i === 0 && rnd() < .5) break;
+    }
+    const cum = [0];
+    for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    return { pts, cum, total: cum[cum.length - 1], off: rnd() * 400, sp: .05 + rnd() * .05 };
+  }
+  function size() {
+    dpr = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    rc = getComputedStyle(root).getPropertyValue("--ring").trim() || rc;
+    const [cx, cy] = center(), s = W > 900 ? 132 : 84, pitch = s / 6.5, g = W > 900 ? 22 : 16;
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    chip = { x: cx, y: cy, s }; traces = [];
+    [0, 2, 4, 6].forEach((a) => {
+      const u = DIRS[a];
+      for (let j = 0; j < 6; j++) {
+        const o = (j - 2.5) * pitch, px = cx + u[0] * (s / 2 + 8) - u[1] * o, py = cy + u[1] * (s / 2 + 8) + u[0] * o;
+        traces.push(route(px, py, a, o < 0 ? -1 : 1, rnd, g, a === 4 ? 1 + Math.floor(rnd() * 2) : 2 + Math.floor(rnd() * 3)));
+      }
+    });
+  }
+  function pointAt(T, s) {
+    let i = 1; while (i < T.cum.length - 1 && T.cum[i] < s) i++;
+    const k = (s - T.cum[i - 1]) / ((T.cum[i] - T.cum[i - 1]) || 1);
+    return [T.pts[i - 1][0] + (T.pts[i][0] - T.pts[i - 1][0]) * k, T.pts[i - 1][1] + (T.pts[i][1] - T.pts[i - 1][1]) * k];
+  }
   function draw(t) {
     ctx.clearRect(0, 0, W, H);
-    const [x, y] = center(), maxR = Math.max(W, H) * .75;
-    for (let i = 0; i < 6; i++) {
-      const p = ((t / 5200) + i / 6) % 1, r = 120 + p * maxR;
-      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${rc}, ${(1 - p) * .22})`; ctx.lineWidth = 1.2; ctx.stroke();
+    const k = W > 900 ? 1 : .6;
+    ctx.lineJoin = "round"; ctx.lineWidth = 1.2;
+    traces.forEach((T) => {
+      ctx.strokeStyle = `rgba(${rc}, ${.2 * k})`; ctx.beginPath();
+      T.pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke();
+      const e = T.pts[T.pts.length - 1]; ctx.strokeStyle = `rgba(${rc}, ${.4 * k})`; ctx.beginPath(); ctx.arc(e[0], e[1], 3, 0, Math.PI * 2); ctx.stroke();
+      const s = (t * T.sp + T.off) % (T.total + 160);
+      if (s <= T.total) for (let j = 0; j < 8; j++) {
+        const q = pointAt(T, Math.max(0, s - j * 5)); ctx.fillStyle = `rgba(${rc}, ${(1 - j / 8) * .9 * k})`;
+        ctx.beginPath(); ctx.arc(q[0], q[1], 2.4 - j * .2, 0, Math.PI * 2); ctx.fill();
+      }
+    });
+    const { x, y, s } = chip, h = s / 2, g = ctx.createRadialGradient(x, y, 0, x, y, s);
+    g.addColorStop(0, `rgba(${rc}, ${(.12 + .06 * Math.sin(t / 700)) * k})`); g.addColorStop(1, `rgba(${rc}, 0)`);
+    ctx.fillStyle = g; ctx.fillRect(x - s, y - s, s * 2, s * 2);
+    ctx.strokeStyle = `rgba(${rc}, ${.55 * k})`; ctx.lineWidth = 1.5; ctx.strokeRect(x - h, y - h, s, s);
+    ctx.strokeStyle = `rgba(${rc}, ${.3 * k})`; ctx.lineWidth = 1; ctx.strokeRect(x - h + 16, y - h + 16, s - 32, s - 32);
+    ctx.fillStyle = `rgba(${rc}, ${.6 * k})`; ctx.beginPath(); ctx.arc(x - h + 8, y - h + 8, 2, 0, Math.PI * 2); ctx.fill();
+    const pitch = s / 6.5;
+    for (let j = 0; j < 6; j++) {
+      const o = (j - 2.5) * pitch;
+      ctx.strokeRect(x - 8 - h, y + o - 1.5, 8, 3); ctx.strokeRect(x + h, y + o - 1.5, 8, 3);
+      ctx.strokeRect(x + o - 1.5, y - 8 - h, 3, 8); ctx.strokeRect(x + o - 1.5, y + h, 3, 8);
     }
+    ctx.fillStyle = `rgba(${rc}, ${.6 * k})`; ctx.font = "600 12px JetBrains Mono, monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("SoC", x, y);
     if (animate && visible) requestAnimationFrame(draw);
   }
   size(); addEventListener("resize", size);

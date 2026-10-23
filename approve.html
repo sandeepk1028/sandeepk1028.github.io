@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Review access request | Sandeep Kumar K</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root { color-scheme: dark; --bg: #0e0e10; --surface: #1a1a1e; --line: #2e2a26; --text: #f5efe8; --text-2: #b8aea2; --text-3: #7d7469; --a1: #f59e0b; --a2: #ef6c3a; --grad: linear-gradient(100deg, var(--a1), var(--a2)); --on-accent: #140c02; --display: "Space Grotesk", system-ui, sans-serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace; --ease: cubic-bezier(.2, .8, .2, 1); }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 28px 18px; background: radial-gradient(900px circle at 50% 30%, #1d1409, var(--bg) 62%); color: var(--text); font: 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+  .card { width: min(100%, 560px); padding: clamp(24px, 5vw, 40px); border-radius: 26px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 40px 90px -40px #000; animation: rise .8s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+  .k { display: inline-flex; align-items: center; gap: 10px; font: 500 12px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--a1); }
+  .k i { width: 9px; height: 9px; border-radius: 50%; background: var(--a1); box-shadow: 0 0 14px var(--a1); }
+  h1 { margin: 16px 0 18px; font: 800 clamp(26px, 5vw, 34px)/1.1 var(--display); letter-spacing: -.03em; }
+  dl { margin: 0 0 22px; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  dl div { padding: 14px 18px; background: var(--bg); }
+  dt { margin-bottom: 6px; font: 500 10.5px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
+  dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+  .acts { display: flex; flex-wrap: wrap; gap: 12px; }
+  button { height: 52px; padding: 0 26px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--text); font: 700 15px/1 var(--body); cursor: pointer; transition: transform .3s var(--ease), background .3s, color .3s, border-color .3s, opacity .3s; }
+  button:hover { transform: translateY(-2px); border-color: var(--a1); color: var(--a1); }
+  button.pri { background: var(--a1); border-color: var(--a1); color: var(--on-accent); }
+  button.pri:hover { background: var(--text); border-color: var(--text); color: var(--bg); }
+  button:disabled { opacity: .55; cursor: default; transform: none; }
+  .msg { margin: 18px 0 0; font-size: 15px; color: var(--text-2); }
+  .msg.ok { color: #4ade80; } .msg.err { color: #f0716f; }
+  .big { font-size: 20px; color: var(--text); }
+  a { color: var(--a1); }
+</style>
+</head>
+<body>
+<main class="card" id="card"><span class="k"><i></i>Access request</span><h1 id="h">Loading…</h1><div id="body"></div></main>
+<script>
+(function () {
+  var API = "https://script.google.com/macros/s/AKfycbyup-6eF4bA7eufEneD128L8ctXfoq9Lm_3NkfnecV6r-y_VhKmzxnlb_aO4S5cRm8yEw/exec";
+  var q = new URLSearchParams(location.search), id = q.get("id"), k = q.get("k"), pre = q.get("do");
+  var h = document.getElementById("h"), body = document.getElementById("body");
+  function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  function tfetch(url) {
+    var c = window.AbortController ? new AbortController() : null, t = setTimeout(function () { if (c) c.abort(); }, 20000);
+    return fetch(url, c ? { signal: c.signal } : {}).then(function (r) { clearTimeout(t); return r.json(); }, function (e) { clearTimeout(t); throw e; });
+  }
+  function fail(t) { h.textContent = "Something went wrong"; body.textContent = ""; body.appendChild(el("p", "msg err", t)); }
+  if (!id || !k) { fail("This link is incomplete. Please use the button in the access request email."); return; }
+  tfetch(API + "?action=info&id=" + encodeURIComponent(id) + "&k=" + encodeURIComponent(k)).then(function (j) {
+    if (!j || !j.ok) { fail((j && j.error) || "This link is not valid."); return; }
+    body.textContent = "";
+    var dl = el("dl");
+    [["Name", j.name], ["Email", j.email], ["Why they would like access", j.reason]].forEach(function (r) { var d = el("div"); d.appendChild(el("dt", null, r[0])); d.appendChild(el("dd", null, r[1])); dl.appendChild(d); });
+    body.appendChild(dl);
+    if (j.status !== "Pending") { h.textContent = "Already " + String(j.status).toLowerCase(); body.appendChild(el("p", "msg", "This request has already been " + String(j.status).toLowerCase() + ".")); return; }
+    h.textContent = pre === "deny" ? "Deny this request?" : "Approve this request?";
+    var acts = el("div", "acts"), a = el("button", "pri", "Approve and email access"), d = el("button", null, "Deny");
+    if (pre === "deny") { a.className = ""; d.className = "pri"; }
+    var msg = el("p", "msg"); body.appendChild(acts); body.appendChild(msg); acts.appendChild(a); acts.appendChild(d);
+    function decide(dec) {
+      a.disabled = d.disabled = true; msg.className = "msg"; msg.textContent = dec === "approve" ? "Approving and sending the access link…" : "Denying…";
+      tfetch(API + "?action=decide&decision=" + dec + "&id=" + encodeURIComponent(id) + "&k=" + encodeURIComponent(k)).then(function (r) {
+        if (r && r.ok) {
+          acts.remove(); h.textContent = dec === "approve" ? "Approved" : "Denied"; msg.className = "msg ok big";
+          msg.textContent = dec === "approve" ? "Done. A personal access link was emailed to " + r.email + "." : "Done. The request from " + r.name + " was denied. No email was sent.";
+        } else { a.disabled = d.disabled = false; msg.className = "msg err"; msg.textContent = (r && r.error) || "That did not work. Please try again."; }
+      }).catch(function () { a.disabled = d.disabled = false; msg.className = "msg err"; msg.textContent = "I could not reach the server. Please check your connection and try again."; });
+    }
+    a.addEventListener("click", function () { decide("approve"); }); d.addEventListener("click", function () { decide("deny"); });
+  }).catch(function () { fail("I could not load this request. Please check your connection and try again."); });
+})();
+</script>
+</body>
+</html>

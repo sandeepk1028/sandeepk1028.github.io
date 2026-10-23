@@ -165,33 +165,47 @@
   .stat .l { color: var(--text-2); font-size: 14px; margin-top: 10px; line-height: 1.4; }
 
   /* Experience timeline */
-  .tl { position: relative; display: grid; gap: 30px; padding-left: 56px; list-style: none; margin: 0; }
-  .tl::before, .tl::after { content: ""; position: absolute; left: 15px; top: var(--y0, 60px); width: 2px; border-radius: 2px; }
-  .tl::before { height: max(0px, calc(var(--y1, 0px) - var(--y0, 60px))); background: var(--line); }
-  .tl::after { height: clamp(0px, calc(var(--fy, 0px) - var(--y0, 60px)), max(0px, calc(var(--y1, 0px) - var(--y0, 60px)))); background: linear-gradient(180deg, var(--a1), var(--a2)); box-shadow: 0 0 12px color-mix(in srgb, var(--a1) 70%, transparent); }
-  .job { position: relative; padding: 34px; border-radius: 26px; background: var(--surface); border: 1px solid var(--line); transition: border-color .5s, box-shadow .4s, transform .5s var(--ease); }
-  .job:hover { border-color: color-mix(in srgb, var(--a1) 50%, var(--line)); box-shadow: var(--shadow); }
-  .job.reached { border-color: color-mix(in srgb, var(--a1) 30%, var(--line)); }
-  .job::before { content: ""; position: absolute; left: -49px; top: var(--ny, 51px); width: 18px; height: 18px; border-radius: 50%; background: var(--bg); border: 2px solid var(--line); box-shadow: 0 0 0 6px var(--bg); transition: background-color .4s, border-color .4s, box-shadow .5s; }
+  .tl { position: relative; display: grid; gap: 0; padding-left: 56px; list-style: none; margin: 0; }
+  .tl::before, .tl::after { content: ""; position: absolute; left: 15px; top: var(--y0, 30px); width: 2px; border-radius: 2px; }
+  .tl::before { height: max(0px, calc(var(--y1, 0px) - var(--y0, 30px))); background: repeating-linear-gradient(180deg, var(--line) 0 6px, transparent 6px 12px); }
+  .tl::after { height: clamp(0px, calc(var(--fy, 0px) - var(--y0, 30px)), max(0px, calc(var(--y1, 0px) - var(--y0, 30px)))); background: linear-gradient(180deg, var(--a1), var(--a2)); box-shadow: 0 0 12px color-mix(in srgb, var(--a1) 70%, transparent); }
+  .tl .head { position: absolute; left: 9px; top: clamp(var(--y0, 30px), var(--fy, 0px), var(--y1, 30px)); width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px color-mix(in srgb, var(--a1) 45%, transparent), 0 0 20px var(--a1); opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .tl.live .head { opacity: 1; }
+  .job { position: relative; display: grid; grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); gap: 28px 56px; padding: 0 0 64px; }
+  .job:last-child { padding-bottom: 0; }
+  .job::before { content: ""; position: absolute; left: -49px; top: 21px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); border: 2px solid var(--line); box-shadow: 0 0 0 6px var(--bg); transition: background-color .4s, border-color .4s, box-shadow .5s; }
   .job.reached::before { background: var(--a1); border-color: var(--a1); box-shadow: 0 0 0 6px var(--bg), 0 0 0 8px color-mix(in srgb, var(--a1) 35%, transparent), 0 0 22px var(--a1); }
-  .job.now.reached::after { content: ""; position: absolute; left: -49px; top: var(--ny, 51px); width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--a1); pointer-events: none; animation: nodeping 2.2s var(--ease) infinite; }
+  .job.now.reached::after { content: ""; position: absolute; left: -49px; top: 21px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--a1); pointer-events: none; animation: nodeping 2.2s var(--ease) infinite; }
   @keyframes nodeping { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(2.6); opacity: 0; } }
-  .jh { display: flex; align-items: center; gap: 16px; padding-bottom: 24px; margin-bottom: 26px; border-bottom: 1px solid var(--line); }
-  .job .logo { flex: none; display: grid; place-items: center; height: 52px; min-width: 52px; padding: 8px 10px; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px #0004; }
-  .job .logo img { display: block; height: 36px; width: auto; }
-  .jc { min-width: 0; }
-  .jc h3 { font-weight: 700; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.15; letter-spacing: -.02em; }
-  .jc small { display: block; margin-top: 4px; font: 500 12px/1.3 var(--mono); letter-spacing: .04em; color: var(--text-3); }
-  .jh .pill { margin-left: auto; flex: none; }
-  .roles { display: grid; gap: 28px; }
-  .rl + .rl { padding-top: 26px; border-top: 1px dashed var(--line); }
-  .rl .top { display: flex; justify-content: space-between; gap: 6px 16px; flex-wrap: wrap; align-items: baseline; margin-bottom: 14px; }
-  .rl h4 { font: 700 19px/1.3 var(--display); margin: 0; color: var(--a1); }
+  .jh { position: sticky; top: 110px; align-self: start; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .jh .idx { font: 800 clamp(52px, 6vw, 84px)/.85 var(--display); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--text-3) 55%, transparent); transition: color .6s, -webkit-text-stroke-color .6s; font-variant-numeric: tabular-nums; }
+  .job.reached .idx { color: color-mix(in srgb, var(--a1) 14%, transparent); -webkit-text-stroke-color: var(--a1); }
+  .job .logo { flex: none; display: grid; place-items: center; height: 56px; min-width: 56px; padding: 9px 12px; border-radius: 14px; background: #fff; box-shadow: 0 1px 2px #0004; }
+  .job .logo img { display: block; height: 38px; width: auto; }
+  .jc h3 { font-weight: 700; font-size: clamp(20px, 2vw, 25px); line-height: 1.15; letter-spacing: -.02em; }
+  .jc small { display: block; margin-top: 6px; font: 500 12px/1.3 var(--mono); letter-spacing: .04em; color: var(--text-3); }
+  .jh .tenure { font: 500 13px/1.3 var(--mono); color: var(--a1); letter-spacing: .02em; }
+  .roles { display: grid; gap: 18px; align-self: start; }
+  .rl { position: relative; padding: 28px 30px 28px 34px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; transition: border-color .4s, transform .5s var(--ease), box-shadow .4s, opacity .7s var(--ease); }
+  .rl::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--a1), var(--a2)); transform-origin: 50% 0; transition: transform .9s var(--ease) .15s; }
+  .rl:hover { border-color: color-mix(in srgb, var(--a1) 45%, var(--line)); box-shadow: var(--shadow); transform: translateY(-3px); }
+  .rl .top { display: flex; justify-content: space-between; gap: 6px 16px; flex-wrap: wrap; align-items: baseline; margin-bottom: 16px; }
+  .rl h4 { font: 700 20px/1.3 var(--display); margin: 0; }
   .job .when { font: 500 13px/1.4 var(--mono); color: var(--text-3); font-variant-numeric: tabular-nums; }
-  .job ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; color: var(--text-2); }
-  .job li { position: relative; padding-left: 24px; }
+  .job ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 11px; color: var(--text-2); }
+  .job li { position: relative; padding-left: 24px; transition: opacity .6s var(--ease), transform .6s var(--ease); }
   .job li::before { content: ""; position: absolute; left: 0; top: .72em; width: 12px; height: 2px; background: var(--grad); border-radius: 2px; }
   .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #22c55e1f; color: #4ade80; font: 700 12px/1 var(--body); }
+  .anim .job:not(.reached) .rl { opacity: .3; transform: translateX(34px); }
+  .anim .job:not(.reached) .rl::before { transform: scaleY(0); }
+  .anim .job:not(.reached) li { opacity: 0; transform: translateX(-12px); }
+  .anim .job:not(.reached) .logo { transform: scale(.8) rotate(-6deg); opacity: 0; }
+  .anim .job .logo { transition: transform .8s cubic-bezier(.3,1.4,.5,1), opacity .5s; }
+  .job.reached .rl:nth-child(2) { transition-delay: .18s; }
+  .job.reached .rl:nth-child(2) li { transition-delay: .5s; }
+  .job.reached .rl:nth-child(1) li:nth-child(1) { transition-delay: .25s; }
+  .job.reached .rl:nth-child(1) li:nth-child(2) { transition-delay: .35s; }
+  .job.reached .rl:nth-child(1) li:nth-child(3) { transition-delay: .45s; }
 
   /* Projects */
   .pgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; }
@@ -282,10 +296,11 @@
     .sk, .edu, .row { grid-template-columns: 1fr; }
     .tl { padding-left: 34px; }
     .tl::before, .tl::after { left: 5px; }
-    .job { padding: 24px; }
+    .tl .head { left: -1px; }
     .job::before, .job.now.reached::after { left: -37px; }
-    .jh { flex-wrap: wrap; }
-    .jh .pill { margin-left: 0; }
+    .job { grid-template-columns: 1fr; padding-bottom: 44px; }
+    .jh { position: static; }
+    .rl { padding: 22px 20px 22px 24px; }
     .contact { border-radius: 28px; }
     }
   @media (prefers-reduced-motion: reduce) {
@@ -360,10 +375,13 @@
     <div class="wrap">
       <div class="shead"><div><span class="label" data-r>Experience</span><h2 class="h2" data-r style="--d:.05s">Where I've<br>built things</h2></div><p data-r style="--d:.1s">From a driver-safety internship to shipping Auracast devices, three companies in under four years.</p></div>
       <ol class="tl" id="tl">
+        <li class="head" aria-hidden="true"></li>
         <li class="job now" data-r>
           <header class="jh">
+            <span class="idx" aria-hidden="true">01</span>
             <span class="logo"><img src="logos/openecore.png" alt="OpenEcore logo"></span>
             <div class="jc"><h3>OpenEcore Private Limited</h3><small>formerly Kruthak Technology</small></div>
+            <span class="tenure">Apr 2025 – Present</span>
             <span class="pill">● Current</span>
           </header>
           <div class="roles">
@@ -386,8 +404,10 @@
         </li>
         <li class="job" data-r>
           <header class="jh">
+            <span class="idx" aria-hidden="true">02</span>
             <span class="logo"><img src="logos/factana.png" alt="Factana logo" style="height:30px"></span>
             <div class="jc"><h3>Factana Computing Private Limited</h3></div>
+            <span class="tenure">Nov 2023 – Jul 2024</span>
             
           </header>
           <div class="roles">
@@ -403,8 +423,10 @@
         </li>
         <li class="job" data-r>
           <header class="jh">
+            <span class="idx" aria-hidden="true">03</span>
             <span class="logo"><img src="logos/pisquare.png" alt="Pi Square Technologies logo"></span>
             <div class="jc"><h3>Pi Square Technologies</h3></div>
+            <span class="tenure">Feb 2023 – Jun 2023</span>
             
           </header>
           <div class="roles">
@@ -627,11 +649,12 @@
       words.forEach((w, i) => w.classList.toggle("on", i < n));
     }
     if (tl) {
-      const r = tl.getBoundingClientRect(), jobs = [...tl.children];
-      const ys = jobs.map((j) => { const h = j.querySelector(".jh"); return j.offsetTop + h.offsetTop + h.offsetHeight / 2; });
+      const r = tl.getBoundingClientRect(), jobs = [...tl.querySelectorAll(".job")];
+      const ys = jobs.map((j) => j.offsetTop + 30);
       const fy = innerHeight * .6 - r.top;
       tl.style.setProperty("--y0", ys[0] + "px"); tl.style.setProperty("--y1", ys[ys.length - 1] + "px"); tl.style.setProperty("--fy", fy + "px");
-      jobs.forEach((j, i) => { const h = j.querySelector(".jh"); j.style.setProperty("--ny", h.offsetTop + h.offsetHeight / 2 - 9 + "px"); j.classList.toggle("reached", fy >= ys[i]); });
+      tl.classList.toggle("live", fy >= ys[0] - 4 && fy <= ys[ys.length - 1] + 4);
+      jobs.forEach((j, i) => j.classList.toggle("reached", fy >= ys[i]));
     }
     let cur = -1;
     secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * .4) cur = i; });

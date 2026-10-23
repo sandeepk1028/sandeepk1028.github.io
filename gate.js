@@ -2,6 +2,12 @@
    This is a courtesy gate, not security: the page content is still delivered to the browser. */
 (function () {
   var HASH = "90c0af481025609087947279459d38a17e727e89a65fa9ff4de5100bcb61beb1", KEY = "skAccess", MAIL = "kumarsandeep.k7259@gmail.com";
+  window.skSend = function (p) {
+    return fetch("https://formsubmit.co/ajax/" + MAIL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ name: p.name, email: p.email, _subject: p.subject, message: p.message, _template: "table", _captcha: "false", _honey: "" }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }); })
+      .then(function (j) { if (j && (j.success === true || j.success === "true")) return true; throw new Error((j && j.message) || "send failed"); });
+  };
   var root = document.documentElement, store = null;
   try { store = window.localStorage; } catch (e) {}
   function unlocked() { try { return store && store.getItem(KEY) === HASH; } catch (e) { return false; } }
@@ -59,11 +65,16 @@
     function say(t, c) { m.className = "skg-m" + (c ? " " + c : ""); m.textContent = t; }
     g.querySelector("#skg-req").addEventListener("submit", function (e) {
       e.preventDefault();
-      var n = g.querySelector("#skg-n").value.trim(), em = g.querySelector("#skg-e").value.trim();
+      var n = g.querySelector("#skg-n").value.trim(), em = g.querySelector("#skg-e").value.trim(), btn = e.target.querySelector("button");
       if (!n || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { say("Please add your name and a valid email.", "err"); return; }
-      var body = "Hello Sandeep,\n\nI would like access to your portfolio.\n\nName: " + n + "\nEmail: " + em + "\n\nThank you.";
-      say("Your email app should open. If it does not, write to " + MAIL + " and I will send you a code.", "ok");
-      location.href = "mailto:" + MAIL + "?subject=" + encodeURIComponent("Portfolio access request") + "&body=" + encodeURIComponent(body);
+      var label = btn.innerHTML; btn.disabled = true; btn.textContent = "Sending…"; say("");
+      window.skSend({ name: n, email: em, subject: "Portfolio access request from " + n, message: "Hello Sandeep,\n\nI would like access to your portfolio.\n\nName: " + n + "\nEmail: " + em }).then(function () {
+        say("Request sent. Thank you, " + n + "! I will reply to " + em + " with your access code.", "ok"); g.querySelector("#skg-n").value = ""; g.querySelector("#skg-e").value = ""; btn.textContent = "Request sent ✓";
+        setTimeout(function () { btn.disabled = false; btn.innerHTML = label; }, 4000);
+      }).catch(function () {
+        btn.disabled = false; btn.innerHTML = label;
+        m.className = "skg-m err"; m.innerHTML = 'Sorry, I could not send that automatically. Please email me directly at <a href="mailto:' + MAIL + '?subject=' + encodeURIComponent("Portfolio access request") + '">' + MAIL + '</a>.';
+      });
     });
     g.querySelector("#skg-go").addEventListener("submit", function (e) {
       e.preventDefault();

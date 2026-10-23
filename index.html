@@ -1145,13 +1145,26 @@
     }
     async function finish() {
       lock(true); dots.forEach((d) => d.classList.add("on"));
-      await bot("Thanks, " + data.name + "! Here is what I'll send.");
+      await bot("Thanks, " + data.name + "! Here is your message. Send it from here when you are ready.");
       const m = mail(), s = document.createElement("div"); s.className = "sum";
       const dl = document.createElement("dl");
       [["To", EMAIL], ["From", data.name + " <" + data.email + ">"], ["Subject", m.subject], ["Message", data.message]].forEach(([k, v]) => { const dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = k; dd.textContent = v; dl.append(dt, dd); });
       const acts = document.createElement("div"); acts.className = "acts";
-      const a = document.createElement("a"); a.className = "btn pri"; a.href = m.href; a.innerHTML = 'Send via email <span class="arr" aria-hidden="true">→</span>';
-      a.addEventListener("click", () => { st.className = "status"; st.textContent = "If your email app didn't open, use Copy message and send it to " + EMAIL + "."; });
+      const a = document.createElement("button"); a.type = "button"; a.className = "btn pri"; a.innerHTML = 'Send message <span class="arr" aria-hidden="true">→</span>';
+      a.addEventListener("click", async () => {
+        if (!window.skSend) { st.className = "status err"; st.innerHTML = 'Sending is unavailable here. Please email <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.'; return; }
+        a.disabled = true; a.textContent = "Sending…"; st.className = "status"; st.textContent = "";
+        try {
+          await window.skSend({ name: data.name, email: data.email, subject: m.subject, message: data.message });
+          acts.remove(); st.textContent = ""; await bot("Sent! Thank you, " + data.name + ". I will reply to " + data.email + " soon.");
+          const again = document.createElement("button"); again.type = "button"; again.className = "btn"; again.textContent = "Send another message";
+          again.addEventListener("click", () => { log.textContent = ""; st.textContent = ""; Object.keys(data).forEach((k) => delete data[k]); f.hidden = false; ask(0); });
+          log.appendChild(again); scroll();
+        } catch (er) {
+          a.disabled = false; a.innerHTML = 'Send message <span class="arr" aria-hidden="true">→</span>';
+          st.className = "status err"; st.innerHTML = 'I could not send that automatically. Please use Copy message, or email <a href="mailto:' + EMAIL + '?subject=' + encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(m.body) + '">' + EMAIL + '</a>.';
+        }
+      });
       const c = document.createElement("button"); c.type = "button"; c.className = "btn"; c.textContent = "Copy message";
       c.addEventListener("click", async () => { const ok = await copyText("To: " + EMAIL + "\nSubject: " + m.subject + "\n\n" + m.body); st.className = ok ? "status" : "status err"; st.textContent = ok ? "Message copied. Paste it into an email to " + EMAIL + "." : "Couldn't copy. Please email " + EMAIL + " directly."; });
       const r = document.createElement("button"); r.type = "button"; r.className = "btn"; r.textContent = "Start over";

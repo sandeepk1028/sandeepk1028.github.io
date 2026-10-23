@@ -490,7 +490,7 @@
 <nav class="nav" id="nav" aria-label="Main">
   <div class="bar">
     <ul class="links">
-      <li><a href="#top">Home</a></li>
+      <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -500,7 +500,7 @@
   </div>
 </nav>
 
-<header class="hero" id="top">
+<header class="hero" id="home">
   <canvas id="rings" aria-hidden="true"></canvas>
   <div class="glow" aria-hidden="true"></div>
   <div class="wrap">
@@ -748,7 +748,7 @@
 <footer>
   <div class="wrap">
     <span>© 2026 Sandeep Kumar K · Embedded Engineer</span>
-    <a class="totop" href="#top">Back to top ↑</a>
+    <a class="totop" href="#home">Back to top ↑</a>
   </div>
 </footer>
 
@@ -759,6 +759,9 @@
   const root = document.documentElement;
   const animate = root.classList.contains("anim");
   const fine = matchMedia("(pointer: fine)").matches;
+
+  // Old #top links now land on #home
+  if (location.hash === "#top") history.replaceState(null, "", "#home");
 
   // Split hero name into characters
   let ci = 0;

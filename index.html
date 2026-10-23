@@ -303,6 +303,69 @@
     .rl { padding: 22px 20px 22px 24px; }
     .contact { border-radius: 28px; }
     }
+  /* Redesign: Projects, Skills, Education, Contact */
+  .pgrid { counter-reset: p; }
+  .pc { counter-increment: p; padding: 36px 32px 30px; }
+  .pc h3::before { content: "P" counter(p, decimal-leading-zero); display: block; margin-bottom: 12px; font: 500 12px/1 var(--mono); letter-spacing: .18em; color: var(--a1); }
+  .pc::after { content: ""; position: absolute; left: 34px; right: 34px; top: 0; height: 7px; pointer-events: none; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--text-3) 55%, transparent) 0 3px, transparent 3px 12px); transition: opacity .4s; }
+  .pc:hover::after { background: repeating-linear-gradient(90deg, var(--a1) 0 3px, transparent 3px 12px); animation: pinrun .9s linear infinite; }
+  .pc.feat::after { background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--inv-text) 45%, transparent) 0 3px, transparent 3px 12px); }
+  .pc.feat:hover::after { background: repeating-linear-gradient(90deg, var(--a1) 0 3px, transparent 3px 12px); }
+  @keyframes pinrun { to { background-position: 12px 0; } }
+  .pc .ico { border-radius: 14px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a1) 30%, transparent); }
+  .pc:hover { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px); }
+  .tags li { transition: border-color .3s, color .3s, transform .3s var(--ease); }
+  .pc:hover .tags li { border-color: color-mix(in srgb, var(--a1) 40%, var(--line)); }
+  .anim .pgrid .pc:nth-child(3n+2) { --d: .1s; }
+  .anim .pgrid .pc:nth-child(3n) { --d: .2s; }
+
+  .sk { grid-template-columns: 1fr; gap: 0; counter-reset: s; border-top: 1px solid var(--line); }
+  .skc { counter-increment: s; position: relative; display: grid; grid-template-columns: minmax(200px, 280px) 1fr; gap: 14px 48px; align-items: start; padding: 30px 8px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; transition: background-color .4s; }
+  .skc:hover { background: color-mix(in srgb, var(--a1) 4%, transparent); }
+  .skc::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--grad); transform-origin: 0 50%; transition: transform 1.2s var(--ease) .1s; }
+  .anim .skc:not(.in)::after { transform: scaleX(0); }
+  .skc h3 { margin: 0; flex-direction: column; justify-content: flex-start; gap: 8px; font-size: 22px; }
+  .skc h3::before { content: "0" counter(s); font: 500 12px/1 var(--mono); letter-spacing: .18em; color: var(--a1); }
+  .skc h3 span { order: 3; font-size: 12px; }
+  .skc h3 span::after { content: " tools"; }
+  .chips { gap: 10px; }
+  .chips li { padding: 11px 16px; border-radius: 999px; background: var(--surface); }
+  .chips li:hover { background: var(--accent-soft); }
+  .anim .skc:not(.in) .chips li { opacity: 0; transform: translateY(12px) scale(.94); }
+  .anim .skc .chips li { transition: opacity .6s var(--ease), transform .6s var(--ease), border-color .3s, color .3s, background-color .3s; }
+  .skc.in .chips li:nth-child(1) { transition-delay: .15s; }
+  .skc.in .chips li:nth-child(2) { transition-delay: .22s; }
+  .skc.in .chips li:nth-child(3) { transition-delay: .29s; }
+  .skc.in .chips li:nth-child(4) { transition-delay: .36s; }
+  .skc.in .chips li:nth-child(5) { transition-delay: .43s; }
+  .skc.in .chips li:nth-child(6) { transition-delay: .5s; }
+  .skc.in .chips li:hover { transition-delay: 0s; }
+
+  .ed { position: relative; padding: 34px 0 0; border: 0; border-radius: 0; background: none; gap: 12px; }
+  .ed::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--line); }
+  .ed::after { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: var(--grad); transform-origin: 0 50%; transition: transform 1.2s var(--ease) .2s; }
+  .anim .ed:not(.in)::after { transform: scaleX(0); }
+  .ed .yr { order: -1; font: 800 clamp(38px, 4.6vw, 62px)/1 var(--display); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--text-3) 60%, transparent); transition: color .6s, -webkit-text-stroke-color .6s; }
+  .ed.in .yr, .ed:hover .yr { -webkit-text-stroke-color: var(--a1); color: color-mix(in srgb, var(--a1) 12%, transparent); }
+  .ed h3 { font-size: clamp(22px, 2.2vw, 28px); }
+
+  .contact { isolation: isolate; }
+  .contact::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--a1); opacity: .1; -webkit-mask-image: var(--pcb); mask-image: var(--pcb); -webkit-mask-size: 240px 240px; mask-size: 240px 240px; }
+  .anim .contact { transition: opacity .9s var(--ease), transform .9s var(--ease), clip-path 1.2s var(--ease); }
+  .anim .contact:not(.in) { clip-path: inset(8% 5% 8% 5% round 60px); }
+  .anim .contact.in { clip-path: inset(0 0 0 0 round 40px); }
+  .big .grad { display: inline-block; }
+  .cg { grid-template-columns: 1.3fr 1fr; }
+  .ln2 { grid-template-columns: auto 1fr auto; gap: 16px; padding: 16px 20px 16px 16px; }
+  .ln2 .v { font-size: 15px; }
+  .ln2 .ci { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: color-mix(in srgb, var(--a1) 18%, transparent); color: var(--a1); transition: background-color .3s, color .3s, transform .5s var(--ease); }
+  .ln2:hover .ci { background: var(--a1); color: var(--on-accent); transform: rotate(-8deg); }
+  .ln2 .ci svg { width: 20px; height: 20px; }
+  .ln2 > span[aria-hidden] { transition: transform .4s var(--ease); font-size: 18px; }
+  .ln2:hover > span[aria-hidden] { transform: translate(3px, -3px); }
+  .fld input:focus, .fld textarea:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--a1) 22%, transparent); border-color: var(--a1); }
+  @media (max-width: 960px) { .sk { grid-template-columns: 1fr; } .skc { grid-template-columns: 1fr; } .cg { grid-template-columns: 1fr; } }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
@@ -521,13 +584,13 @@
       <div class="contact" data-r>
         <div class="orb" aria-hidden="true"></div><div class="orb b" aria-hidden="true"></div>
         <span class="label">Contact</span>
-        <h2 class="big">Let's build something that sounds good.</h2>
+        <h2 class="big">Let's build something that <span class="grad">sounds good.</span></h2>
         <div class="cg">
           <div class="direct">
-            <div class="ln2"><div><span class="k">Email</span><span class="v" id="v-email">kumarsandeep.k7259@gmail.com</span></div><button class="copy" type="button" data-copy="v-email">Copy</button></div>
-            <div class="ln2"><div><span class="k">Phone</span><span class="v" id="v-phone"></span></div><button class="copy" type="button" data-copy="v-phone">Copy</button></div>
-            <a class="ln2" href="https://www.linkedin.com/in/sandeep-kumar-k" target="_blank" rel="noopener"><div><span class="k">LinkedIn</span><span class="v">linkedin.com/in/sandeep-kumar-k</span></div><span aria-hidden="true">↗</span></a>
-            <a class="ln2" href="https://github.com/sandeepk1028" target="_blank" rel="noopener"><div><span class="k">GitHub</span><span class="v">github.com/sandeepk1028</span></div><span aria-hidden="true">↗</span></a>
+            <div class="ln2"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><div><span class="k">Email</span><span class="v" id="v-email">kumarsandeep.k7259@gmail.com</span></div><button class="copy" type="button" data-copy="v-email">Copy</button></div>
+            <div class="ln2"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><span class="k">Phone</span><span class="v" id="v-phone"></span></div><button class="copy" type="button" data-copy="v-phone">Copy</button></div>
+            <a class="ln2" href="https://www.linkedin.com/in/sandeep-kumar-k" target="_blank" rel="noopener"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11.5H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.82-2.05 3.75-2.05 4 0 4.74 2.63 4.74 6.05v5.9h-4v-5.23c0-1.25-.02-2.85-1.74-2.85-1.74 0-2 1.36-2 2.76v5.32h-4z"/></svg></span><div><span class="k">LinkedIn</span><span class="v">linkedin.com/in/sandeep-kumar-k</span></div><span aria-hidden="true">↗</span></a>
+            <a class="ln2" href="https://github.com/sandeepk1028" target="_blank" rel="noopener"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.9.83.09-.64.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></span><div><span class="k">GitHub</span><span class="v">github.com/sandeepk1028</span></div><span aria-hidden="true">↗</span></a>
           </div>
           <form id="contact-form" novalidate>
             <div class="row">

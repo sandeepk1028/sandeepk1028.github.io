@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of an Auracast broadcast reaching a phone">
+<defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#f59e0b" stroke-opacity=".07"/></pattern>
+<linearGradient id="c" x1="0" x2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef6c3a"/></linearGradient></defs>
+<rect width="800" height="600" fill="#17171a"/><rect width="800" height="600" fill="url(#g)"/>
+<g fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round">
+<rect x="70" y="250" width="130" height="100" rx="14" fill="#1f1d1a"/><path d="M95 275h50M95 300h80M95 325h30" stroke-opacity=".55"/><circle cx="178" cy="280" r="6" fill="#f59e0b"/>
+<path d="M235 300a42 42 0 0 1 0 0M240 262a50 50 0 0 1 0 76" stroke-opacity=".95"/><path d="M262 235a90 90 0 0 1 0 130" stroke-opacity=".6"/><path d="M285 208a132 132 0 0 1 0 184" stroke-opacity=".32"/>
+</g>
+<g fill="none" stroke="#f5efe8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<rect x="470" y="90" width="230" height="420" rx="36" fill="#1f1d1a"/><path d="M555 112h60" stroke-opacity=".5"/></g>
+<g stroke-linecap="round">
+<rect x="492" y="150" width="186" height="64" rx="16" fill="#f59e0b" fill-opacity=".14" stroke="#f59e0b" stroke-width="2.5"/>
+<circle cx="526" cy="182" r="14" fill="url(#c)"/><path d="M519 182h14M526 175v14" stroke="#17171a" stroke-width="2.5"/>
+<rect x="554" y="170" width="92" height="9" rx="4.5" fill="#f5efe8" fill-opacity=".85"/><rect x="554" y="188" width="60" height="8" rx="4" fill="#f5efe8" fill-opacity=".4"/>
+<rect x="492" y="232" width="186" height="64" rx="16" fill="none" stroke="#3a342e" stroke-width="2.5"/><circle cx="526" cy="264" r="14" fill="#3a342e"/>
+<rect x="554" y="252" width="80" height="9" rx="4.5" fill="#f5efe8" fill-opacity=".45"/><rect x="554" y="270" width="52" height="8" rx="4" fill="#f5efe8" fill-opacity=".22"/>
+<rect x="492" y="314" width="186" height="64" rx="16" fill="none" stroke="#3a342e" stroke-width="2.5"/><circle cx="526" cy="346" r="14" fill="#3a342e"/>
+<rect x="554" y="334" width="96" height="9" rx="4.5" fill="#f5efe8" fill-opacity=".45"/><rect x="554" y="352" width="44" height="8" rx="4" fill="#f5efe8" fill-opacity=".22"/>
+<rect x="500" y="428" width="170" height="8" rx="4" fill="#3a342e"/><rect x="500" y="428" width="104" height="8" rx="4" fill="url(#c)"/><circle cx="604" cy="432" r="10" fill="#f5efe8"/>
+</g>
+<path d="M300 300C380 300 400 190 480 182" fill="none" stroke="url(#c)" stroke-width="3" stroke-dasharray="3 12" stroke-linecap="round"/>
+</svg>

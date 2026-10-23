@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Illustration of sensors feeding a microcontroller that triggers an alert">
+<defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#f59e0b" stroke-opacity=".07"/></pattern>
+<linearGradient id="c" x1="0" x2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#ef6c3a"/></linearGradient></defs>
+<rect width="800" height="600" fill="#17171a"/><rect width="800" height="600" fill="url(#g)"/>
+<g fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<rect x="60" y="120" width="140" height="110" rx="16" fill="#1f1d1a"/><path d="M92 175c24-34 52-34 76 0-24 34-52 34-76 0z"/><circle cx="130" cy="175" r="10" fill="#f59e0b"/>
+<rect x="60" y="370" width="140" height="110" rx="16" fill="#1f1d1a"/><circle cx="130" cy="425" r="26"/><path d="M118 420c6-8 8 8 14 0s8 8 14 0" stroke-opacity=".8"/>
+<rect x="330" y="215" width="150" height="170" rx="16" fill="#1f1d1a"/><rect x="372" y="257" width="66" height="86" rx="6" stroke-opacity=".7"/><path d="M350 245h-20M350 300h-20M350 355h-20M460 245h20M460 300h20M460 355h20M372 215v-14M405 215v-14M438 215v-14M372 385v14M405 385v14M438 385v14" stroke-opacity=".75"/><circle cx="385" cy="272" r="4" fill="#f59e0b"/>
+<rect x="610" y="120" width="140" height="110" rx="16" fill="#1f1d1a"/><path d="M652 160h22l34-22v74l-34-22h-22z"/><path d="M722 160a22 22 0 0 1 0 30" stroke-opacity=".7"/>
+<rect x="610" y="370" width="140" height="110" rx="16" fill="#1f1d1a"/><circle cx="680" cy="425" r="30"/><path d="M659 446l42-42" stroke="#ef6c3a"/>
+<path d="M200 175H260V258H330" stroke="url(#c)" stroke-dasharray="3 11"/><path d="M200 425H260V342H330" stroke="url(#c)" stroke-dasharray="3 11"/>
+<path d="M480 258H545V175H610" stroke="url(#c)" stroke-dasharray="3 11"/><path d="M480 342H545V425H610" stroke="url(#c)" stroke-dasharray="3 11"/>
+</g>
+<g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="15" letter-spacing="3" fill="#f5efe8" fill-opacity=".55" text-anchor="middle">
+<text x="130" y="262">EYE</text><text x="130" y="512">ALCOHOL</text><text x="405" y="430">MCU</text><text x="680" y="262">ALERT</text><text x="680" y="512">STOP</text></g>
+</svg>

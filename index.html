@@ -210,13 +210,6 @@
   .tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
   .tags li { font: 500 12px/1 var(--mono); padding: 8px 11px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-2); }
 
-  /* Education */
-  .edu { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-  .ed { padding: 32px; border-radius: 24px; border: 1px solid var(--line); background: var(--surface); display: grid; gap: 8px; }
-  .ed .yr { font: 500 13px/1 var(--mono); color: var(--a1); }
-  .ed h3 { font-weight: 700; font-size: 24px; letter-spacing: -.02em; }
-  .ed p { margin: 0; color: var(--text-2); }
-
   /* Contact */
   .contact { position: relative; border-radius: 40px; padding: clamp(32px, 6vw, 80px); background: var(--inv); color: var(--inv-text); overflow: hidden; }
   .contact .orb { position: absolute; width: 560px; height: 560px; border-radius: 50%; right: -180px; top: -200px; background: radial-gradient(circle, color-mix(in srgb, var(--a1) 55%, transparent), transparent 65%); pointer-events: none; }
@@ -271,14 +264,6 @@
     .contact { border-radius: 28px; }
     }
   /* Redesign: Projects, Skills, Education, Contact */
-  .ed { position: relative; padding: 34px 0 0; border: 0; border-radius: 0; background: none; gap: 12px; }
-  .ed::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--line); }
-  .ed::after { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: var(--grad); transform-origin: 0 50%; transition: transform 1.2s var(--ease) .2s; }
-  .anim .ed:not(.in)::after { transform: scaleX(0); }
-  .ed .yr { order: -1; font: 800 clamp(38px, 4.6vw, 62px)/1 var(--display); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--text-3) 60%, transparent); transition: color .6s, -webkit-text-stroke-color .6s; }
-  .ed.in .yr, .ed:hover .yr { -webkit-text-stroke-color: var(--a1); color: color-mix(in srgb, var(--a1) 12%, transparent); }
-  .ed h3 { font-size: clamp(22px, 2.2vw, 28px); }
-
   .contact { isolation: isolate; }
   .contact::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--a1); opacity: .1; -webkit-mask-image: var(--pcb); mask-image: var(--pcb); -webkit-mask-size: 240px 240px; mask-size: 240px 240px; }
   .anim .contact { transition: opacity .9s var(--ease), transform .9s var(--ease), clip-path 1.2s var(--ease); }
@@ -382,6 +367,51 @@
     .tile { padding: 14px 14px 16px; gap: 16px; }
     .tile .tn { font-size: 16px; }
     .tile .tt b { display: none; }
+  }
+
+  /* Education timeline */
+  .edu { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
+  .edu-axis { grid-column: 1 / -1; position: relative; display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 38px; margin-bottom: 26px; }
+  .edu-axis::before, .edu-axis::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 2px; border-radius: 2px; }
+  .edu-axis::before { background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px); }
+  .edu-axis::after { background: linear-gradient(90deg, var(--a1), var(--a2)); box-shadow: 0 0 12px color-mix(in srgb, var(--a1) 70%, transparent); transform-origin: 0 50%; transition: transform 1.9s var(--ease) .1s; }
+  .edu-axis span { position: relative; font: 800 clamp(30px, 4.4vw, 58px)/1 var(--display); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, var(--text-3) 60%, transparent); transition: color .6s, -webkit-text-stroke-color .6s; font-variant-numeric: tabular-nums; }
+  .edu-axis span::after { content: ""; position: absolute; bottom: -41px; width: 14px; height: 14px; border-radius: 50%; background: var(--a1); border: 2px solid var(--a1); box-shadow: 0 0 0 5px var(--bg), 0 0 0 7px color-mix(in srgb, var(--a1) 35%, transparent), 0 0 18px var(--a1); transition: background-color .5s, border-color .5s, box-shadow .5s; }
+  .edu-axis span:nth-child(1)::after { left: 0; }
+  .edu-axis span:nth-child(2)::after { left: 50%; margin-left: -7px; }
+  .edu-axis span:nth-child(3)::after { right: 0; }
+  .edu-axis span { -webkit-text-stroke-color: var(--a1); color: color-mix(in srgb, var(--a1) 12%, transparent); }
+  .ed { position: relative; display: grid; gap: 10px; padding: 0 0 30px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; transition: border-color .4s, transform .5s var(--ease), box-shadow .4s, opacity .8s var(--ease); }
+  .ed:hover { border-color: color-mix(in srgb, var(--a1) 50%, var(--line)); transform: translateY(-5px); box-shadow: var(--shadow); }
+  .ed .bar { position: relative; height: 6px; margin-bottom: 20px; background: color-mix(in srgb, var(--line) 80%, transparent); }
+  .ed .bar::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--a1), var(--a2)); transform-origin: 0 50%; transition: transform 1.3s var(--ease); }
+  .ed > :not(.bar) { margin-inline: 30px; }
+  .ed .yr { font: 500 13px/1 var(--mono); letter-spacing: .12em; color: var(--a1); }
+  .ed h3 { font-weight: 700; font-size: clamp(26px, 2.8vw, 36px); letter-spacing: -.03em; line-height: 1.1; }
+  .ed p { margin: 0; color: var(--text-2); }
+  .ed .dur { justify-self: start; margin-top: 8px; padding: 7px 12px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--a1) 40%, transparent); font: 500 12px/1 var(--mono); letter-spacing: .1em; color: var(--a1); text-transform: uppercase; }
+  .anim .edu:not(.in) .edu-axis::after { transform: scaleX(0); }
+  .anim .edu:not(.in) .edu-axis span { color: transparent; -webkit-text-stroke-color: color-mix(in srgb, var(--text-3) 60%, transparent); }
+  .anim .edu:not(.in) .edu-axis span::after { background: var(--bg); border-color: var(--line); box-shadow: 0 0 0 5px var(--bg); }
+  .anim .edu:not(.in) .ed { opacity: 0; }
+  .anim .edu.in .ed { animation: edin 1s var(--ease) backwards; }
+  @keyframes edin { from { opacity: 0; transform: translateY(34px) scale(.97); } }
+  .anim .edu:not(.in) .ed .bar::after { transform: scaleX(0); }
+  .edu.in .edu-axis span:nth-child(2) { transition-delay: .95s; }
+  .edu.in .edu-axis span:nth-child(3) { transition-delay: 1.9s; }
+  .edu.in .edu-axis span:nth-child(2)::after { transition-delay: .95s; }
+  .edu.in .edu-axis span:nth-child(3)::after { transition-delay: 1.9s; }
+  .anim .edu.in .ed:nth-of-type(1) { animation-delay: .35s; }
+  .anim .edu.in .ed:nth-of-type(2) { animation-delay: 1.2s; }
+  .edu.in .ed:nth-of-type(1) .bar::after { transition-delay: .6s; }
+  .edu.in .ed:nth-of-type(2) .bar::after { transition-delay: 1.45s; }
+  @media (max-width: 640px) {
+    .edu { grid-template-columns: 1fr; gap: 16px; }
+    .edu-axis { display: none; }
+    .ln2 { grid-template-columns: 1fr auto; padding: 14px 16px; }
+    .ln2 .ci { display: none; }
+    .ln2 .v { font-size: 13px; }
+    .contact { padding: 30px 20px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -593,9 +623,10 @@
   <section class="sec" id="education" style="padding-top:40px">
     <div class="wrap">
       <div class="shead"><div><span class="label" data-r>Education</span><h2 class="h2" data-r style="--d:.05s">Electronics &amp;<br>Communication</h2></div></div>
-      <div class="edu">
-        <div class="ed" data-r><span class="yr">2020 – 2023</span><h3>Bachelor of Engineering</h3><p>MVJ College of Engineering, Bengaluru (Autonomous, VTU)</p></div>
-        <div class="ed" data-r style="--d:.1s"><span class="yr">2017 – 2020</span><h3>Diploma</h3><p>Government Polytechnic, Chintamani (DTE)</p></div>
+      <div class="edu" data-r>
+        <div class="edu-axis" aria-hidden="true"><span>2017</span><span>2020</span><span>2023</span></div>
+        <article class="ed"><div class="bar"></div><span class="yr">2017 – 2020</span><h3>Diploma</h3><p>Government Polytechnic, Chintamani (DTE)</p><span class="dur">3 years</span></article>
+        <article class="ed"><div class="bar"></div><span class="yr">2020 – 2023</span><h3>Bachelor of Engineering</h3><p>MVJ College of Engineering, Bengaluru (Autonomous, VTU)</p><span class="dur">3 years</span></article>
       </div>
     </div>
   </section>

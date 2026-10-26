@@ -2,7 +2,7 @@
    Visitors request access (name, email, reason). Sandeep approves by email and the visitor receives a personal link.
    This is a courtesy gate, not security: the page content is still delivered to the browser. */
 (function () {
-  var HASH = "90c0af481025609087947279459d38a17e727e89a65fa9ff4de5100bcb61beb1", KEY = "skAccess", MAIL = "kumarsandeep.k7259@gmail.com";
+  var HASH = "90c0af481025609087947279459d38a17e727e89a65fa9ff4de5100bcb61beb1", KEY = "skAccess", MAIL = "sandeepkumark1028@gmail.com";
   // Google Apps Script web app that handles approvals (see access-backend/SETUP.md). Leave empty to use plain email requests.
   var API = "https://script.google.com/macros/s/AKfycbyXziAE9AH9cO11mmHXnlkHfOu4KLDC4RZycT-hdvLgo8E6uqu7N-83AJ1YjMMpaOWzmg/exec";
 

@@ -102,8 +102,8 @@ Files that are intentionally **not** committed:
 No install is needed. Any static file server works.
 
 ```bash
-git clone https://github.com/sandeepkumark1028/sandeepk1028.github.io.git
-cd sandeepk1028.github.io
+git clone https://github.com/sandeepkumark1028/sandeepkumark1028.github.io.git
+cd sandeepkumark1028.github.io
 
 # pick one
 python3 -m http.server 8000

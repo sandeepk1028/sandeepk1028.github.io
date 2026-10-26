@@ -483,6 +483,17 @@
   .chat-f .send:hover { transform: scale(1.08) rotate(-6deg); box-shadow: 0 10px 28px -8px var(--a1); }
   .chat-f .send:disabled { opacity: .4; cursor: default; transform: none; box-shadow: none; }
   .chat .status { margin: 0; padding: 0 26px 16px; min-height: 0; }
+    .cform { display: grid; gap: 16px; padding: 24px 26px 28px; }
+  .cform label { display: grid; gap: 8px; font: 600 13px/1 var(--body); color: var(--text-2); }
+  .cform .opt { font-weight: 500; color: var(--text-3); }
+  .cform input, .cform textarea { width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: 500 16px/1.5 var(--body); transition: border-color .3s, box-shadow .3s; }
+  .cform textarea { min-height: 140px; resize: vertical; }
+  .cform input:focus, .cform textarea:focus { outline: none; border-color: var(--a1); box-shadow: 0 0 0 3px color-mix(in srgb, var(--a1) 25%, transparent); }
+  .cform input::placeholder, .cform textarea::placeholder { color: var(--text-3); }
+  .cform .btn { justify-self: start; cursor: pointer; }
+  .cform .btn:disabled { opacity: .5; cursor: default; }
+  .cform .status { margin: 0; }
+  .status.ok { color: #22c55e; }
   @media (max-width: 960px) { .cx { grid-template-columns: 1fr; } .cxh { font-size: clamp(34px, 8vw, 48px); } }
   @media (max-width: 560px) { .chat-b { padding: 18px 16px; } .bb { max-width: 92%; font-size: 15px; } .chat-h { padding: 16px 18px; } .chat-f { padding: 12px 14px 14px; } .cxrow .v { font-size: 13px; } .cxrow .ci { display: none; } .cxrow { grid-template-columns: minmax(0, 1fr) auto; padding-inline: 4px; } }
 
@@ -746,12 +757,14 @@
           </ul>
         </div>
         <div class="chat" id="chat">
-          <div class="chat-h"><span class="live" aria-hidden="true"></span><b>New message</b><span class="steps" id="steps" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
-          <div class="chat-b" id="chat-b" role="log" aria-live="polite"></div>
-          <p class="status" id="form-status" role="status"></p>
-          <form class="chat-f" id="chat-f" novalidate>
-            <textarea id="chat-in" rows="1" placeholder="Your name" aria-label="Your reply" autocomplete="name" disabled></textarea>
-            <button class="send" id="chat-send" type="submit" aria-label="Send reply" disabled>→</button>
+          <div class="chat-h"><b>Send a message</b></div>
+          <form class="cform" id="cform" novalidate>
+            <label>Name<input id="cf-name" name="name" type="text" autocomplete="name" placeholder="Your name" required></label>
+            <label>Email<input id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></label>
+            <label>Subject <span class="opt">(optional)</span><input id="cf-subject" name="subject" type="text" autocomplete="off" placeholder="What is this about?"></label>
+            <label>Message<textarea id="cf-message" name="message" rows="5" placeholder="Tell me what you're building, or just say hello." required></textarea></label>
+            <button class="btn pri" id="cf-send" type="submit">Send message <span class="arr" aria-hidden="true">→</span></button>
+            <p class="status" id="form-status" role="status" aria-live="polite"></p>
           </form>
           <noscript><p class="status" style="padding:0 26px 20px">Please email me at <a href="mailto:kumarsandeep.k7259@gmail.com">kumarsandeep.k7259@gmail.com</a>.</p></noscript>
         </div>
@@ -1111,84 +1124,30 @@
     }, { threshold: .35 }).observe(pv);
   })();
 
-  // Contact: one question at a time, then send via the visitor's email app
+  // Contact: a standard form, sent through the same mail relay
   (function () {
-    const log = document.getElementById("chat-b"), f = document.getElementById("chat-f"), inp = document.getElementById("chat-in"), send = document.getElementById("chat-send"), st = document.getElementById("form-status"), dots = [...document.querySelectorAll("#steps i")], chat = document.getElementById("chat");
-    if (!log) return;
-    const D = animate ? 650 : 0, data = {};
-    let cur = 0, busy = true;
-    const EM = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-    const steps = [
-      { k: "name", q: () => "Hi, I'm Sandeep. What's your name?", ph: "Your name", ac: "name", ok: (v) => !!v || "Please tell me your name." },
-      { k: "email", q: () => "Nice to meet you, " + data.name + ". What's your email, so I can reply?", ph: "you@example.com", ac: "email", mode: "email", ok: (v) => EM.test(v) || "That doesn't look like an email address. Could you check it?" },
-      { k: "subject", q: () => "What is this about? You can skip this one.", ph: "Subject (press Enter to skip)", ac: "off", opt: true },
-      { k: "message", q: () => "Tell me more. What would you like to say?", ph: "Your message (Shift+Enter for a new line)", ac: "off", ok: (v) => !!v || "Write a short message first." },
-    ];
-    const scroll = () => { log.scrollTop = log.scrollHeight; };
-    function bubble(who, text, cls) { const b = document.createElement("div"); b.className = "bb " + who + (cls ? " " + cls : ""); b.textContent = text; log.appendChild(b); scroll(); return b; }
-    function bot(text, cls) {
-      return new Promise((res) => {
-        const t = document.createElement("div"); t.className = "bb bot typ"; t.setAttribute("aria-hidden", "true"); t.innerHTML = "<i></i><i></i><i></i>"; log.appendChild(t); scroll();
-        setTimeout(() => { t.remove(); res(bubble("bot", text, cls)); }, D);
-      });
-    }
-    function lock(on) { busy = on; inp.disabled = on; send.disabled = on; }
-    async function ask(i) {
-      cur = i; lock(true); dots.forEach((d, j) => d.classList.toggle("on", j <= i));
-      await bot(steps[i].q());
-      inp.value = ""; inp.style.height = ""; inp.placeholder = steps[i].ph; inp.setAttribute("autocomplete", steps[i].ac); inp.inputMode = steps[i].mode || "text";
-      lock(false); inp.focus({ preventScroll: true });
-    }
-    function mail() {
-      const subject = data.subject || "Hello from your portfolio", body = data.message + "\n\n— " + data.name + "\n" + data.email;
-      return { subject, body, href: "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body) };
-    }
-    async function finish() {
-      lock(true); dots.forEach((d) => d.classList.add("on"));
-      await bot("Thanks, " + data.name + "! Here is your message. Send it from here when you are ready.");
-      const m = mail(), s = document.createElement("div"); s.className = "sum";
-      const dl = document.createElement("dl");
-      [["To", EMAIL], ["From", data.name + " <" + data.email + ">"], ["Subject", m.subject], ["Message", data.message]].forEach(([k, v]) => { const dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = k; dd.textContent = v; dl.append(dt, dd); });
-      const acts = document.createElement("div"); acts.className = "acts";
-      const a = document.createElement("button"); a.type = "button"; a.className = "btn pri"; a.innerHTML = 'Send message <span class="arr" aria-hidden="true">→</span>';
-      a.addEventListener("click", async () => {
-        if (!window.skSend) { st.className = "status err"; st.innerHTML = 'Sending is unavailable here. Please email <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.'; return; }
-        a.disabled = true; a.textContent = "Sending…"; st.className = "status"; st.textContent = "";
-        try {
-          await window.skSend({ name: data.name, email: data.email, subject: m.subject, message: data.message });
-          acts.remove(); st.textContent = ""; await bot("Sent! Thank you, " + data.name + ". I will reply to " + data.email + " soon.");
-          const again = document.createElement("button"); again.type = "button"; again.className = "btn"; again.textContent = "Send another message";
-          again.addEventListener("click", () => { log.textContent = ""; st.textContent = ""; Object.keys(data).forEach((k) => delete data[k]); f.hidden = false; ask(0); });
-          log.appendChild(again); scroll();
-        } catch (er) {
-          a.disabled = false; a.innerHTML = 'Send message <span class="arr" aria-hidden="true">→</span>';
-          if (er && er.userMessage) { st.className = "status err"; st.textContent = er.userMessage; return; }
-          st.className = "status err"; st.innerHTML = 'I could not send that automatically. Please use Copy message, or email <a href="mailto:' + EMAIL + '?subject=' + encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(m.body) + '">' + EMAIL + '</a>.';
-        }
-      });
-      const c = document.createElement("button"); c.type = "button"; c.className = "btn"; c.textContent = "Copy message";
-      c.addEventListener("click", async () => { const ok = await copyText("To: " + EMAIL + "\nSubject: " + m.subject + "\n\n" + m.body); st.className = ok ? "status" : "status err"; st.textContent = ok ? "Message copied. Paste it into an email to " + EMAIL + "." : "Couldn't copy. Please email " + EMAIL + " directly."; });
-      const r = document.createElement("button"); r.type = "button"; r.className = "btn"; r.textContent = "Start over";
-      r.addEventListener("click", () => { log.textContent = ""; st.textContent = ""; Object.keys(data).forEach((k) => delete data[k]); f.hidden = false; ask(0); });
-      acts.append(a, c, r); s.append(dl, acts); log.appendChild(s); scroll(); f.hidden = true;
-    }
-    async function submit() {
-      if (busy) return;
-      const step = steps[cur], v = inp.value.trim();
-      st.textContent = "";
-      if (!v && step.opt) { bubble("me", "Skipped", "skip"); data[step.k] = ""; } else {
-        const r = step.ok ? step.ok(v) : true;
-        if (r !== true) { lock(true); bubble("me", v || "…"); await bot(r, "err"); lock(false); inp.focus({ preventScroll: true }); return; }
-        data[step.k] = v; bubble("me", v);
+    const f = document.getElementById("cform"); if (!f) return;
+    const st = document.getElementById("form-status"), btn = document.getElementById("cf-send"), EM = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    const v = (id) => document.getElementById(id).value.trim();
+    const say = (t, c) => { st.className = "status" + (c ? " " + c : ""); st.textContent = t; };
+    f.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = v("cf-name"), email = v("cf-email"), message = v("cf-message"), subject = v("cf-subject") || "Hello from your portfolio";
+      if (!name) { say("Please enter your name.", "err"); return; }
+      if (!EM.test(email)) { say("Please enter a valid email address.", "err"); return; }
+      if (!message) { say("Please write a short message.", "err"); return; }
+      const href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(message + "\n\n— " + name + "\n" + email);
+      const fallback = () => { st.className = "status err"; st.innerHTML = 'I could not send that automatically. Please <a href="' + href + '">email me directly</a>.'; };
+      if (!window.skSend) { fallback(); return; }
+      btn.disabled = true; say("Sending…");
+      try {
+        await window.skSend({ name, email, subject, message });
+        f.reset(); say("Sent! Thank you, " + name + ". I will reply to " + email + " soon.", "ok");
+      } catch (er) {
+        if (er && er.userMessage) say(er.userMessage, "err"); else fallback();
       }
-      if (cur + 1 < steps.length) ask(cur + 1); else finish();
-    }
-    f.addEventListener("submit", (e) => { e.preventDefault(); submit(); });
-    inp.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(); } });
-    inp.addEventListener("input", () => { inp.style.height = "auto"; inp.style.height = Math.min(140, inp.scrollHeight) + "px"; });
-    let started = false;
-    const go = () => { if (!started) { started = true; ask(0); } };
-    if ("IntersectionObserver" in window) new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); setTimeout(go, animate ? 900 : 0); } }, { threshold: .3 }).observe(chat); else go();
+      btn.disabled = false;
+    });
   })();
 })();
 </script>

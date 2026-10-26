@@ -4,7 +4,7 @@
 (function () {
   var HASH = "90c0af481025609087947279459d38a17e727e89a65fa9ff4de5100bcb61beb1", KEY = "skAccess", MAIL = "sandeepkumark1028@gmail.com";
   // Google Apps Script web app that handles approvals (see access-backend/SETUP.md). Leave empty to use plain email requests.
-  var API = "https://script.google.com/macros/s/AKfycbyXziAE9AH9cO11mmHXnlkHfOu4KLDC4RZycT-hdvLgo8E6uqu7N-83AJ1YjMMpaOWzmg/exec";
+  var API = "https://script.google.com/macros/s/AKfycbzAV7nF5r-H0o-OdsxuCTumDjxrHp1CiqHDVbgEus9Ml-1tuMWsoo8inHQ_k1P72LbXgQ/exec";
 
   // fetch that gives up after a while instead of hanging forever
   function tfetch(url, opts, ms) {

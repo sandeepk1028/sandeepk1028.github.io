@@ -103,7 +103,7 @@
       '<textarea id="skg-r" name="reason" placeholder="Why would you like access? (for example: a recruiter hiring for an embedded role)" aria-label="Why would you like access"></textarea><input class="hp" id="skg-w" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
       '<button class="skg-btn" type="submit">Request access <span aria-hidden="true">→</span></button></form>' +
       '<div class="skg-or">Already have a code</div><form class="skg-code" id="skg-go" novalidate><input id="skg-c" placeholder="SK-XXXXX-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Access code"><button class="skg-btn ghost" type="submit">Unlock</button></form>' +
-      '<p class="skg-m" id="skg-m" role="status"></p><div class="skg-f"><a href="mailto:' + MAIL + '">' + MAIL + '</a><a href="https://www.linkedin.com/in/sandeep-kumar-k" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/sandeepk1028" target="_blank" rel="noopener">GitHub</a></div></div>';
+      '<p class="skg-m" id="skg-m" role="status"></p><div class="skg-f"><a href="mailto:' + MAIL + '">' + MAIL + '</a><a href="https://www.linkedin.com/in/sandeep-kumar-k" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/sandeepkumark1028" target="_blank" rel="noopener">GitHub</a></div></div>';
     var main = document.querySelector("main"); main.parentNode.insertBefore(g, main);
     var m = g.querySelector("#skg-m");
     function say(t, c) { m.className = "skg-m" + (c ? " " + c : ""); m.textContent = t; }

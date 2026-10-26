@@ -208,6 +208,5 @@ A repository named `<username>.github.io` is published automatically by GitHub P
 - **Email:** sandeepkumark1028@gmail.com
 - **LinkedIn:** https://www.linkedin.com/in/sandeep-kumar-k
 - **GitHub:** https://github.com/sandeepkumark1028
-- **Phone:** +91 9110859225
 
 © 2026 Sandeep Kumar K. All rights reserved. The code is shown for portfolio purposes. Please ask before reusing it.

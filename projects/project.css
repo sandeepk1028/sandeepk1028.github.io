@@ -145,3 +145,4 @@ footer a:hover { color: var(--a1); }
 @keyframes dashv { to { background-position: 0 20px; } }
 @media (max-width: 560px) { .wrap { padding-inline: 18px; } .prose p { font-size: 17px; } .prose p:first-of-type { font-size: 19px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+.meta .wide { grid-column: 1 / -1; }

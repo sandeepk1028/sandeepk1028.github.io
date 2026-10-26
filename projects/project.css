@@ -150,3 +150,9 @@ footer a:hover { color: var(--a1); }
 .meta-line span::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 12px; border-radius: 50%; background: var(--a1); vertical-align: middle; }
 .meta-line span { padding: 0 22px; }
 .meta-line span + span { border-left: 1px solid var(--line); }
+/* image sits inside its own frame */
+.himg { padding: 14px; border-radius: 38px; border: 1.5px solid color-mix(in srgb, var(--a1) 45%, var(--line)); background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: 0 40px 80px -40px #000c, 0 0 70px -34px var(--a1); }
+.himg::before { display: none; }
+.himg .fr { border-radius: 24px; border-color: transparent; box-shadow: none; }
+.anim .himg .fr { clip-path: inset(0 0 0 0 round 24px); }
+.anim .himg:not(.in) .fr { clip-path: inset(0 0 100% 0 round 24px); }

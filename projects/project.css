@@ -50,7 +50,7 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .toc a.on::before { color: var(--a1); }
 .toc a.on::after { height: 22px; margin-top: -11px; }
 .doc { display: grid; gap: 110px; min-width: 0; }
-.sec h2 { display: flex; align-items: baseline; gap: 18px; margin: 0 0 28px; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); letter-spacing: -.035em; line-height: 1.05; }
+.sec h2 { display: flex; align-items: baseline; gap: 18px; margin: 0 0 28px; font-weight: 800; font-size: clamp(28px, 3.4vw, 44px); letter-spacing: -.035em; line-height: 1.05; color: #fbb85c; }
 .sec h2 i { font: 500 13px/1 var(--mono); font-style: normal; letter-spacing: .16em; color: var(--a1); }
 .prose p { max-width: 62ch; margin: 0 0 18px; font-size: 18px; line-height: 1.7; color: var(--text-2); }
 .prose p:first-of-type { font-size: 21px; line-height: 1.6; color: var(--text); }

@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 108 108">
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 144 108">
   <defs>
-    <linearGradient id="bg_grad" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bg_grad" x1="0" y1="0" x2="144" y2="108" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#05050A" />
       <stop offset="1" stop-color="#000000" />
     </linearGradient>
 
-    <radialGradient id="purple_glow" cx="30" cy="30" r="100" gradientUnits="userSpaceOnUse">
+    <radialGradient id="purple_glow" cx="40" cy="30" r="110" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#8E54E9" stop-opacity="0.4" />
       <stop offset="1" stop-color="#000000" stop-opacity="0" />
     </radialGradient>
 
-    <radialGradient id="cyan_glow" cx="80" cy="80" r="90" gradientUnits="userSpaceOnUse">
+    <radialGradient id="cyan_glow" cx="110" cy="80" r="100" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#4FC3F7" stop-opacity="0.3" />
       <stop offset="1" stop-color="#000000" stop-opacity="0" />
     </radialGradient>
@@ -31,10 +31,11 @@
     </linearGradient>
   </defs>
 
-  <rect width="108" height="108" fill="url(#bg_grad)" />
-  <rect width="108" height="108" fill="url(#purple_glow)" />
-  <rect width="108" height="108" fill="url(#cyan_glow)" />
+  <rect width="144" height="108" fill="url(#bg_grad)" />
+  <rect width="144" height="108" fill="url(#purple_glow)" />
+  <rect width="144" height="108" fill="url(#cyan_glow)" />
 
+  <g transform="translate(18 0)">
   <path d="M54,26 L22,86 M54,26 L86,86" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none" />
 
   <path d="M54,52 L54,72" stroke="url(#gemini_grad_center)" stroke-width="5" stroke-linecap="round" fill="none" />
@@ -42,4 +43,5 @@
   <path d="M46,54 L46,74 M62,54 L62,74" stroke="url(#gemini_grad_inner)" stroke-width="5" stroke-linecap="round" fill="none" />
 
   <path d="M38,58 L38,68 M70,58 L70,68" stroke="url(#gemini_grad_outer)" stroke-width="5" stroke-linecap="round" fill="none" />
+</g>
 </svg>

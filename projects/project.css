@@ -146,5 +146,7 @@ footer a:hover { color: var(--a1); }
 @media (max-width: 560px) { .wrap { padding-inline: 18px; } .prose p { font-size: 17px; } .prose p:first-of-type { font-size: 19px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
 .meta .wide { grid-column: 1 / -1; }
-.meta-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; margin: 0; padding: 18px 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); font: 600 15px/1.35 var(--body); color: var(--text); }
+.meta-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 0; margin: 0; padding: 18px 0; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); font: 600 15px/1.35 var(--body); color: var(--text); }
 .meta-line span::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 12px; border-radius: 50%; background: var(--a1); vertical-align: middle; }
+.meta-line span { padding: 0 22px; }
+.meta-line span + span { border-left: 1px solid var(--line); }
